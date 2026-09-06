@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kisan AI — Fasal ki problem? Kisan AI se poochho.</title>
+<style>
+:root{--green:#087a3b;--dark:#12351f;--light:#effaf2;--border:#d7e7dc}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,"Noto Sans Devanagari",sans-serif;color:var(--dark);background:#fff}
+header{display:flex;align-items:center;justify-content:space-between;padding:16px 5%;border-bottom:1px solid var(--border);position:sticky;top:0;background:#ffffffee;backdrop-filter:blur(8px);z-index:3}
+.logo{font-size:30px;font-weight:800;color:var(--green)}.logo span{color:#172b1c}
+nav a{margin-left:22px;color:var(--dark);text-decoration:none}
+.hero{padding:42px 5%;background:linear-gradient(135deg,#f1fbf3,#fff)}
+.hero-grid{max-width:1150px;margin:auto;display:grid;grid-template-columns:1.05fr .95fr;gap:34px;align-items:center}
+h1{font-size:clamp(38px,6vw,68px);line-height:1.05;margin:10px 0;color:#102a18}
+h1 span{color:var(--green)}.sub{font-size:21px;line-height:1.5;color:#45604d}
+.pills{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0}.pill{background:#e1f4e6;padding:9px 13px;border-radius:999px}
+.hero img{width:100%;border-radius:24px;box-shadow:0 18px 50px #164c2622}
+.cta{display:inline-block;background:var(--green);color:white;padding:15px 22px;border-radius:13px;text-decoration:none;font-weight:700}
+.section{max-width:1150px;margin:auto;padding:48px 5%}h2{font-size:34px;margin-top:0}
+.tools{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card{border:1px solid var(--border);border-radius:20px;padding:24px;background:#fff}
+.card h3{font-size:22px;margin:8px 0}.icon{font-size:42px}
+#analyzer{background:#f7fbf8;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.panel{max-width:900px;margin:auto;background:white;border:1px solid var(--border);border-radius:24px;padding:25px;box-shadow:0 10px 30px #12351f0d}
+label{display:block;font-weight:700;margin:15px 0 7px}select,input,textarea{width:100%;padding:13px;border:1px solid #cbdacf;border-radius:12px;font-size:16px}
+.upload{border:2px dashed #9bc6a6;padding:30px;text-align:center;border-radius:18px;background:#f5fbf6;cursor:pointer}
+button{border:0;background:var(--green);color:#fff;padding:14px 20px;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;margin-top:16px}
+button.secondary{background:#315b3c;margin-left:8px}
+.result{display:none;margin-top:22px;padding:20px;border-radius:16px;background:#eff9f1;border:1px solid #b9d9c0}
+.warn{font-size:13px;color:#6b4d18;background:#fff7df;padding:12px;border-radius:10px;margin-top:12px}
+footer{padding:30px 5%;background:#12351f;color:#fff;text-align:center}
+@media(max-width:800px){nav{display:none}.hero-grid{grid-template-columns:1fr}.tools{grid-template-columns:1fr}h1{font-size:44px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">🌾 <span>Kisan</span> AI</div>
+  <nav><a href="#analyzer">Fasal Check</a><a href="#features">Features</a></nav>
+</header>
+
+<section class="hero">
+<div class="hero-grid">
+<div>
+  <div class="pill">🤖 AI-powered farming assistant</div>
+  <h1>Fasal ki problem?<br><span>Kisan AI se poochho.</span></h1>
+  <p class="sub">Apni fasal ki photo upload karein, apni bhasha mein sawal poochhein aur aasaan jawab paayen.</p>
+  <div class="pills">
+    <div class="pill">📷 Photo se check</div><div class="pill">🎤 Bolkar poochhein</div>
+    <div class="pill">🔊 Jawab sunein</div><div class="pill">🌾 Kheti guidance</div>
+  </div>
+  <a class="cta" href="#analyzer">🌱 Fasal Check Shuru Karein</a>
+</div>
+<div><img src="kisan-ai-hero.png" alt="Kisan AI website preview"></div>
+</div>
+</section>
+
+<section class="section" id="features">
+<h2>Kisan AI kya karega?</h2>
+<div class="tools">
+<div class="card"><div class="icon">📷</div><h3>Fasal ki photo</h3><p>Photo upload karke crop problem ka preliminary AI analysis.</p></div>
+<div class="card"><div class="icon">🐛</div><h3>Keeda aur rog</h3><p>Visible symptoms ke basis par possible causes aur next checks.</p></div>
+<div class="card"><div class="icon">💧</div><h3>Kheti guidance</h3><p>Paani, khaad, crop stage aur basic management guidance.</p></div>
+</div>
+</section>
+
+<section class="section" id="analyzer">
+<div class="panel">
+<h2>🌱 Fasal Check</h2>
+<p>Ye prototype hai. Abhi AI result demo hai; real agricultural AI/API connection next phase mein add hoga.</p>
+
+<label>1. Fasal chuniye</label>
+<select id="crop"><option>Tomato</option><option>Chilli</option><option>Rice</option><option>Brinjal</option><option>Potato</option></select>
+
+<label>2. Fasal ki photo</label>
+<label class="upload" for="photo">📷 Photo select karein<input id="photo" type="file" accept="image/*" style="display:none"></label>
+<p id="filename" style="color:#567">Abhi koi photo select nahi hui.</p>
+
+<label>3. Apni problem batayein</label>
+<textarea id="question" rows="4" placeholder="Jaise: patte pe peele daag aa rahe hain..."></textarea>
+
+<label>4. Bhasha</label>
+<select id="lang"><option>Hindi</option><option>Assamese</option><option>English</option></select>
+
+<button onclick="analyze()">🔍 Analyze Karein</button>
+<button class="secondary" onclick="speak()">🎤 Bolkar Poochhein</button>
+
+<div class="result" id="result">
+<h3>🤖 Kisan AI — Preliminary Analysis</h3>
+<p><b>Crop:</b> <span id="rCrop"></span></p>
+<p><b>Possible issue:</b> Photo aur symptoms ke basis par kuch possibilities ho sakti hain. Exact diagnosis ke liye clear photo aur additional details zaroori hain.</p>
+<p><b>Next step:</b> Patton ke front/back ka clear photo, problem kitne din se hai, aur crop ki age/stage batayein.</p>
+<div class="warn">⚠️ Ye AI-assisted preliminary guidance hai, final agricultural diagnosis nahi. Pesticide/fertilizer ka specific use karne se pehle trusted agricultural expert/official recommendation se verify karein.</div>
+</div>
+</div>
+</section>
+
+<footer>🌾 <b>Kisan AI</b> — Fasal ki problem? Kisan AI se poochho.<br><small>Prototype • Better farming decisions through accessible AI</small></footer>
+
+<script>
+document.getElementById('photo').addEventListener('change',function(){
+  document.getElementById('filename').textContent=this.files.length ? "Selected: "+this.files[0].name : "Abhi koi photo select nahi hui.";
+});
+function analyze(){
+  document.getElementById('rCrop').textContent=document.getElementById('crop').value;
+  document.getElementById('result').style.display='block';
+  document.getElementById('result').scrollIntoView({behavior:'smooth',block:'center'});
+}
+function speak(){
+  const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SpeechRecognition){alert("Aapke browser mein voice input available nahi hai. Chrome mein try karein.");return;}
+  const r=new SpeechRecognition(); r.lang=document.getElementById('lang').value==="Assamese"?"as-IN":document.getElementById('lang').value==="English"?"en-IN":"hi-IN";
+  r.onresult=e=>document.getElementById('question').value=e.results[0][0].transcript;
+  r.start();
+}
+</script>
+</body>
+</html>
