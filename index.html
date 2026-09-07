@@ -66,7 +66,7 @@ footer{padding:30px 5%;background:#12351f;color:#fff;text-align:center}
 <section class="section" id="analyzer">
 <div class="panel">
 <h2>🌱 Fasal Check</h2>
-<p>Ye prototype hai. Abhi AI result demo hai; real agricultural AI/API connection next phase mein add hoga.</p>
+<p>Photo upload karke apni problem batayein. Kisan AI aapko preliminary AI-assisted guidance dega.</p>
 
 <label>1. Fasal chuniye</label>
 <select id="crop"><option>Tomato</option><option>Chilli</option><option>Rice</option><option>Brinjal</option><option>Potato</option></select>
@@ -100,10 +100,92 @@ footer{padding:30px 5%;background:#12351f;color:#fff;text-align:center}
 document.getElementById('photo').addEventListener('change',function(){
   document.getElementById('filename').textContent=this.files.length ? "Selected: "+this.files[0].name : "Abhi koi photo select nahi hui.";
 });
-function analyze(){
-  document.getElementById('rCrop').textContent=document.getElementById('crop').value;
-  document.getElementById('result').style.display='block';
-  document.getElementById('result').scrollIntoView({behavior:'smooth',block:'center'});
+const API_URL = "https://kisan-ai-kfzn.onrender.com/api/analyze";
+
+function fileToDataUrl(file){
+  return new Promise((resolve,reject)=>{
+    const reader=new FileReader();
+    reader.onload=()=>resolve(reader.result);
+    reader.onerror=reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+async function makeSmallerImage(file){
+  if(!file.type.startsWith("image/")) throw new Error("Please select an image.");
+  const raw=await fileToDataUrl(file);
+  return new Promise((resolve)=>{
+    const img=new Image();
+    img.onload=()=>{
+      const max=1600;
+      const scale=Math.min(1,max/Math.max(img.width,img.height));
+      const canvas=document.createElement("canvas");
+      canvas.width=Math.max(1,Math.round(img.width*scale));
+      canvas.height=Math.max(1,Math.round(img.height*scale));
+      const ctx=canvas.getContext("2d");
+      ctx.drawImage(img,0,0,canvas.width,canvas.height);
+      resolve(canvas.toDataURL("image/jpeg",0.78));
+    };
+    img.onerror=()=>resolve(raw);
+    img.src=raw;
+  });
+}
+
+async function analyze(){
+  const crop=document.getElementById('crop').value;
+  const question=document.getElementById('question').value.trim();
+  const language=document.getElementById('lang').value;
+  const file=document.getElementById('photo').files[0];
+
+  if(!file){
+    alert("Pehle fasal ki photo select karein.");
+    return;
+  }
+
+  const btn=document.querySelector('button[onclick="analyze()"]');
+  btn.disabled=true;
+  btn.textContent="⏳ Kisan AI soch raha hai...";
+
+  const result=document.getElementById('result');
+  result.style.display='block';
+  result.innerHTML='<h3>🤖 Kisan AI — Analysis</h3><p>Photo analyze ho rahi hai. Free server sleep se wake hone par thoda time lag sakta hai.</p>';
+
+  try{
+    const imageDataUrl=await makeSmallerImage(file);
+    const response=await fetch(API_URL,{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({crop,question,language,imageDataUrl})
+    });
+
+    const data=await response.json().catch(()=>({}));
+    if(!response.ok) throw new Error(data.error || "AI analysis failed.");
+
+    document.getElementById('rCrop').textContent=crop;
+    result.innerHTML=`
+      <h3>🤖 Kisan AI — Preliminary Analysis</h3>
+      <p><b>Crop:</b> <span id="rCrop"></span></p>
+      <div style="white-space:pre-wrap;line-height:1.6">${escapeHtml(data.answer || "No answer received.")}</div>
+      <div class="warn">⚠️ Ye AI-assisted preliminary guidance hai, final agricultural diagnosis nahi. Pesticide/fertilizer ka specific use karne se pehle trusted agricultural expert ya official recommendation se verify karein.</div>
+    `;
+    result.scrollIntoView({behavior:'smooth',block:'center'});
+  }catch(err){
+    result.innerHTML=`
+      <h3>⚠️ Analysis nahi ho paya</h3>
+      <p>${escapeHtml(err.message)}</p>
+      <div class="warn">Agar ye pehli request hai, Free Render server ko start hone mein 60 seconds ya zyada lag sakte hain. Thodi der baad dobara try karein.</div>
+    `;
+    result.scrollIntoView({behavior:'smooth',block:'center'});
+  }finally{
+    btn.disabled=false;
+    btn.textContent="🔍 Analyze Karein";
+  }
+}
+
+function escapeHtml(text){
+  return String(text).replace(/[&<>"']/g,m=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+  }[m]));
 }
 function speak(){
   const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
