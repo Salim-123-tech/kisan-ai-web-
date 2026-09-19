@@ -21,9 +21,9 @@ a{text-decoration:none;color:inherit}
   backdrop-filter:blur(14px);border-bottom:1px solid var(--line)
 }
 .header-inner{max-width:1180px;margin:auto;padding:12px 18px;display:flex;align-items:center;gap:16px}
-.brand{display:flex;align-items:center;gap:10px;min-width:230px}
-.logo{width:62px;height:62px;flex:0 0 62px}
-.brand-name{font-size:29px;font-weight:850;line-height:1;color:var(--green)}
+.brand{display:flex;align-items:center;gap:12px;min-width:250px}
+.logo{width:70px;height:70px;flex:0 0 70px;display:block;overflow:visible}
+.brand-name{font-size:31px;font-weight:850;line-height:1;color:var(--green);white-space:nowrap}
 .brand-sub{font-size:13px;color:var(--muted);margin-top:5px}
 .header-right{margin-left:auto;display:flex;align-items:center;gap:10px}
 .lang-select{height:46px;border:1px solid var(--line);border-radius:14px;background:#fff;padding:0 13px;color:#24483b;min-width:132px;outline:none}
@@ -91,9 +91,9 @@ main{max-width:980px;margin:auto;padding:34px 16px 70px}
 .footer{text-align:center;padding:30px 16px;border-top:1px solid var(--line);color:#788680;background:#fff}
 .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#173d30;color:#fff;padding:11px 16px;border-radius:12px;display:none;z-index:50;font-size:14px}
 @media(max-width:720px){
-  .header-inner{padding:9px 12px;gap:8px}
-  .brand{min-width:0;flex:1;gap:7px}.logo{width:54px;height:54px;flex-basis:54px}
-  .brand-name{font-size:24px}.brand-sub{font-size:11px}
+  .header-inner{padding:9px 12px;gap:7px}
+  .brand{min-width:0;flex:1;gap:7px}.logo{width:60px;height:60px;flex-basis:60px}
+  .brand-name{font-size:25px}.brand-sub{font-size:11px}
   .header-right{gap:5px}.lang-select{min-width:108px;height:42px;font-size:14px;padding:0 8px}.profile-btn{width:42px;height:42px}
   .nav{padding:0 10px 8px;gap:3px}
   .nav button{padding:7px 10px;font-size:13px}
@@ -123,7 +123,7 @@ main{max-width:980px;margin:auto;padding:34px 16px 70px}
     </a>
     <div class="header-right">
       <select id="siteLang" class="lang-select" aria-label="Website language"></select>
-      <button class="profile-btn" onclick="showSection('profile')" aria-label="Profile">👤</button>
+      <!-- Profile is available only in the navigation; duplicate profile icon removed. -->
     </div>
   </div>
   <nav class="nav">
@@ -193,12 +193,22 @@ main{max-width:980px;margin:auto;padding:34px 16px 70px}
 
 <section id="profile" class="section">
   <div class="section-card">
-    <h2 data-i="profileTitle">Profile</h2>
-    <p data-i="profileText">Profile and secure farmer accounts will be added as the service grows.</p>
+    <h2 data-i="profileTitle">Create your Kisan AI account</h2>
+    <p data-i="profileText">Register with your mobile number and email. OTP verification will be used before the account is created.</p>
+
     <div class="profile-form">
-      <input data-placeholder="name" placeholder="Name">
-      <input data-placeholder="mobile" placeholder="Mobile number">
-      <input data-placeholder="email" placeholder="Email">
+      <input id="regName" data-placeholder="name" placeholder="Name" autocomplete="name">
+      <input id="regMobile" data-placeholder="mobile" placeholder="Mobile number" inputmode="numeric" maxlength="10" autocomplete="tel">
+      <button id="sendOtp" class="analyze" type="button" data-i="sendOtp">Send OTP</button>
+
+      <div id="otpArea" style="display:none">
+        <input id="regOtp" data-placeholder="otp" placeholder="Enter OTP" inputmode="numeric" maxlength="6" autocomplete="one-time-code">
+        <button id="verifyOtp" class="analyze" type="button" style="width:100%;margin-top:10px" data-i="verifyOtp">Verify OTP</button>
+      </div>
+
+      <input id="regEmail" data-placeholder="email" placeholder="Email" type="email" autocomplete="email">
+      <button id="registerBtn" class="analyze" type="button" style="width:100%" data-i="register">Register</button>
+      <div id="registerStatus" class="status" style="display:none"></div>
     </div>
   </div>
 </section>
@@ -216,6 +226,7 @@ const LANGS = {
     hero:"How can Kisan AI help?",heroSub:"Upload plant photos, ask by text or voice, and get practical farming guidance.",
     attach:"Add photos",noPhotos:"No photos selected",plant:"Plant / crop name (optional)",
     question:"Ask anything about your plant or farming problem...",analyze:"Analyze",auto:"Auto Detect",
+    sendOtp:"Send OTP",verifyOtp:"Verify OTP",register:"Register",otp:"Enter OTP",
     resultTitle:"Kisan AI analysis",feature1Title:"Plant problem analysis",feature1:"Disease, pest, weed, plant identification and nutrient-deficiency analysis.",
     feature2Title:"Treatment guidance",feature2:"Treatment options, dose, application method, safety and waiting-period guidance.",
     feature3Title:"Farming advice",feature3:"Irrigation, nutrition, crop-stage care, prevention, market and farm-planning support.",
@@ -223,7 +234,7 @@ const LANGS = {
     currentTitle:"Current services",current1:"Plant and crop problem analysis",current2:"Farming guidance through text and voice",current3:"Multi-language experience",
     futureTitle:"Future services",future1:"Local weather and district advice",future2:"Verified treatment and crop-protection information",future3:"Market prices, selling and farm-planning support",
     adviceTitle:"Farming Advice",adviceText:"Ask Kisan AI about irrigation, nutrition, crop stage, pest prevention, harvest planning and other farming decisions.",
-    profileTitle:"Profile",profileText:"Profile and secure farmer accounts will be added as the service grows.",
+    profileTitle:"Create your Kisan AI account",profileText:"Register with your mobile number and email. OTP verification will be used before the account is created.",
     name:"Name",mobile:"Mobile number",email:"Email",tagline:"Fasal ki problem? Kisan AI se poochho.",
     selectPhotos:"Please select at least one plant photo.",working:"Analyzing your request…",error:"Something went wrong. Please try again."
   }},
@@ -376,6 +387,54 @@ document.getElementById("analyze").addEventListener("click",async()=>{
     status.style.display="none"; btn.disabled=false;
   }
 });
+
+let otpVerified=false;
+
+document.getElementById("sendOtp").addEventListener("click",()=>{
+  const mobile=document.getElementById("regMobile").value.trim();
+  const status=document.getElementById("registerStatus");
+  if(!/^[0-9]{10}$/.test(mobile)){
+    status.style.display="block";
+    status.textContent="Please enter a valid 10-digit mobile number.";
+    return;
+  }
+  status.style.display="block";
+  status.textContent="OTP sending is ready in the interface. Connect the secure backend OTP service to send the real SMS.";
+  document.getElementById("otpArea").style.display="block";
+});
+
+document.getElementById("verifyOtp").addEventListener("click",()=>{
+  const otp=document.getElementById("regOtp").value.trim();
+  const status=document.getElementById("registerStatus");
+  if(!/^[0-9]{6}$/.test(otp)){
+    status.style.display="block";
+    status.textContent="Please enter the 6-digit OTP.";
+    return;
+  }
+  status.style.display="block";
+  status.textContent="OTP verification UI is ready. Real OTP verification will work after the secure backend/auth service is connected.";
+  otpVerified=true;
+});
+
+document.getElementById("registerBtn").addEventListener("click",()=>{
+  const name=document.getElementById("regName").value.trim();
+  const mobile=document.getElementById("regMobile").value.trim();
+  const email=document.getElementById("regEmail").value.trim();
+  const status=document.getElementById("registerStatus");
+  if(!name || !/^[0-9]{10}$/.test(mobile) || !email){
+    status.style.display="block";
+    status.textContent="Please fill in your name, valid mobile number and email.";
+    return;
+  }
+  if(!otpVerified){
+    status.style.display="block";
+    status.textContent="Please verify the OTP before registering.";
+    return;
+  }
+  status.style.display="block";
+  status.textContent="Registration form is ready. Secure account creation will be enabled when the backend authentication service is connected.";
+});
+
 function toast(msg){const x=document.getElementById("toast");x.textContent=msg;x.style.display="block";setTimeout(()=>x.style.display="none",2600)}
 </script>
 </body>
