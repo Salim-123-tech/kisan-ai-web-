@@ -1,125 +1,382 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Kisan AI | Smart Farming Assistant</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<title>Kisan AI — Smart Farming Assistant</title>
 <style>
-:root{--green:#087a3d;--green2:#0da552;--dark:#123127;--muted:#687a72;--bg:#f5faf7;--card:#fff;--line:#dce9e2;--gold:#f4b51b;--danger:#b42318}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--dark);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-header{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--line);box-shadow:0 3px 18px #12312712}
-.header{max-width:1200px;margin:auto;min-height:82px;padding:10px 20px;display:flex;align-items:center;gap:16px}
-.brand{display:flex;align-items:center;gap:10px;margin-right:auto}.logo{width:58px;height:58px;flex:none}.brand h1{font-size:31px;line-height:1;margin:0;color:var(--green)}.brand p{font-size:11px;color:var(--muted);margin:5px 0 0}
-nav{display:flex;gap:4px}nav button,.profileBtn{border:0;background:transparent;color:#3b5149;font-weight:700;padding:10px 12px;border-radius:10px;cursor:pointer}nav button.active,nav button:hover,.profileBtn:hover{background:#eaf7ef;color:var(--green)}
-.siteLang{border:1px solid var(--line);border-radius:10px;padding:9px;background:#fff;color:var(--dark)}
-main{max-width:1100px;margin:auto;padding:34px 18px 70px}
-.hero{text-align:center;padding:8px 0 20px}.hero h2{font-size:clamp(31px,5vw,50px);margin:0 0 9px}.hero p{margin:0;color:var(--muted);font-size:17px}
-.chat{max-width:880px;margin:auto;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:22px;box-shadow:0 14px 38px #1231270d}
-.upload{border:2px dashed #9ccbad;border-radius:18px;background:#f8fcf9;text-align:center;padding:24px}.uploadIcon{font-size:34px}.upload h3{margin:7px 0}.upload p{color:var(--muted);margin:5px 0 16px}.upload label{display:inline-block;background:var(--green);color:#fff;padding:12px 18px;border-radius:12px;font-weight:800;cursor:pointer}.upload input{display:none}
-.thumbs{display:flex;flex-wrap:wrap;gap:10px;margin-top:15px}.thumb{position:relative}.thumb img{width:82px;height:82px;object-fit:cover;border-radius:11px;border:1px solid var(--line)}.thumb span{position:absolute;right:-4px;top:-7px;background:var(--green);color:white;border-radius:99px;font-size:11px;padding:2px 6px}
-.fields{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}.field{width:100%;padding:13px;border:1px solid var(--line);border-radius:13px;background:#fff;font:inherit;color:var(--dark)}
-.question{display:flex;gap:8px;margin-top:14px;border:1px solid var(--line);border-radius:15px;background:#fff;padding:6px}.question textarea{flex:1;border:0;outline:0;resize:vertical;min-height:72px;padding:9px;font:inherit}.mic{align-self:flex-end;border:0;background:#eaf7ef;border-radius:11px;padding:11px;font-size:20px;cursor:pointer}
-.analyze{width:100%;border:0;background:var(--green);color:#fff;border-radius:14px;padding:15px;margin-top:14px;font-size:17px;font-weight:800;cursor:pointer}.analyze:hover{background:#066d36}.notice{font-size:12px;color:var(--muted);text-align:center;line-height:1.5;margin:10px 0 0}
-.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;max-width:1000px;margin:22px auto}.quick .card{background:#fff;border:1px solid var(--line);border-radius:17px;padding:19px}.ico{font-size:29px}.card h3{margin:7px 0}.card p{color:var(--muted);line-height:1.5;margin:0}
-.result{display:none;margin-top:16px;background:#f8fcf9;border:1px solid var(--line);border-radius:15px;padding:17px;white-space:pre-wrap;line-height:1.6}.result.error{background:#fff7f6;border-color:#f2c5c1;color:var(--danger)}
-footer{border-top:1px solid var(--line);background:#fff;text-align:center;color:var(--muted);padding:25px}
-@media(max-width:850px){nav{display:none}.header{padding:9px 12px}.brand h1{font-size:25px}.brand p{font-size:10px}main{padding:24px 12px 50px}.chat{padding:14px;border-radius:18px}.fields,.quick{grid-template-columns:1fr}.siteLang{max-width:105px}}
+:root{
+  --green:#087f3f; --green2:#0a9a50; --dark:#12352a; --muted:#708078;
+  --bg:#f7faf8; --card:#fff; --line:#e1ebe5; --soft:#eef8f2;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--dark);background:var(--bg)}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+a{text-decoration:none;color:inherit}
+.header{
+  position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);
+  backdrop-filter:blur(14px);border-bottom:1px solid var(--line)
+}
+.header-inner{max-width:1180px;margin:auto;padding:12px 18px;display:flex;align-items:center;gap:16px}
+.brand{display:flex;align-items:center;gap:10px;min-width:230px}
+.logo{width:62px;height:62px;flex:0 0 62px}
+.brand-name{font-size:29px;font-weight:850;line-height:1;color:var(--green)}
+.brand-sub{font-size:13px;color:var(--muted);margin-top:5px}
+.header-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.lang-select{height:46px;border:1px solid var(--line);border-radius:14px;background:#fff;padding:0 13px;color:#24483b;min-width:132px;outline:none}
+.profile-btn{width:46px;height:46px;border:0;border-radius:14px;background:var(--soft);color:var(--green);font-size:22px}
+.nav{
+  max-width:1180px;margin:auto;display:flex;gap:7px;padding:0 18px 10px;overflow-x:auto;
+  scrollbar-width:none
+}
+.nav::-webkit-scrollbar{display:none}
+.nav button{white-space:nowrap;border:0;background:transparent;color:#587067;padding:8px 13px;border-radius:10px;font-weight:650}
+.nav button.active,.nav button:hover{background:var(--soft);color:var(--green)}
+main{max-width:980px;margin:auto;padding:34px 16px 70px}
+.hero{text-align:center;padding:18px 8px 20px}
+.hero h1{font-size:clamp(30px,6vw,54px);letter-spacing:-1.8px;margin:8px 0 10px;color:#123d30}
+.hero p{font-size:clamp(16px,2.7vw,20px);color:#71817a;margin:0 auto;max-width:650px;line-height:1.55}
+.chat-shell{
+  max-width:850px;margin:24px auto 0;background:#fff;border:1px solid var(--line);
+  border-radius:28px;box-shadow:0 14px 40px rgba(28,78,54,.08);padding:14px
+}
+.composer{border:1.5px solid #d8e6df;border-radius:22px;background:#fff;padding:12px}
+.photo-row{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:9px}
+.thumb{width:64px;height:64px;border-radius:12px;object-fit:cover;border:1px solid var(--line)}
+.photo-actions{display:flex;align-items:center;gap:9px}
+.attach-btn{
+  border:1px solid var(--line);background:var(--soft);color:var(--green);border-radius:12px;
+  padding:10px 13px;font-weight:750
+}
+.photo-count{font-size:13px;color:var(--muted)}
+.plant-input{
+  width:100%;border:0;border-bottom:1px solid #edf1ef;padding:12px 4px;outline:none;
+  color:#29473d;background:transparent
+}
+.question-wrap{display:flex;align-items:flex-end;gap:8px}
+.question{
+  flex:1;min-height:82px;resize:none;border:0;outline:none;padding:13px 4px 6px;
+  color:#203c32;background:transparent;line-height:1.5
+}
+.question::placeholder{color:#8a9892}
+.mic-btn{
+  width:46px;height:46px;border:0;border-radius:14px;background:var(--soft);color:var(--green);
+  font-size:20px
+}
+.mic-btn.listening{background:#ffecec;color:#c52c2c}
+.bottom-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;border-top:1px solid #edf1ef;padding-top:10px}
+.small-select{border:1px solid var(--line);border-radius:12px;padding:9px 11px;background:#fff;color:#345349}
+.analyze{
+  margin-left:auto;border:0;border-radius:13px;background:var(--green);color:#fff;
+  padding:11px 20px;font-weight:800;box-shadow:0 7px 18px rgba(8,127,63,.18)
+}
+.analyze:hover{background:var(--green2)}
+.status{display:none;margin:10px 4px 0;padding:12px;border-radius:12px;background:var(--soft);color:#315247;font-size:14px}
+.results{display:none;margin:18px auto 0;max-width:850px}
+.result-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;margin-top:10px}
+.result-card h3{margin:0 0 8px;color:var(--green)}
+.result-body{white-space:pre-wrap;line-height:1.6;color:#40574f}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:24px auto 0;max-width:850px}
+.feature{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px}
+.feature-icon{font-size:27px}.feature h3{margin:10px 0 7px}.feature p{margin:0;color:#73817c;line-height:1.55}
+.section{display:none;max-width:850px;margin:25px auto}
+.section.active{display:block}
+.section-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:24px}
+.section-card h2{margin-top:0;color:var(--green)}
+.section-card p,.section-card li{color:#63736d;line-height:1.65}
+.profile-form{display:grid;gap:12px}.profile-form input{padding:13px;border:1px solid var(--line);border-radius:12px;outline:none}
+.footer{text-align:center;padding:30px 16px;border-top:1px solid var(--line);color:#788680;background:#fff}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#173d30;color:#fff;padding:11px 16px;border-radius:12px;display:none;z-index:50;font-size:14px}
+@media(max-width:720px){
+  .header-inner{padding:9px 12px;gap:8px}
+  .brand{min-width:0;flex:1;gap:7px}.logo{width:54px;height:54px;flex-basis:54px}
+  .brand-name{font-size:24px}.brand-sub{font-size:11px}
+  .header-right{gap:5px}.lang-select{min-width:108px;height:42px;font-size:14px;padding:0 8px}.profile-btn{width:42px;height:42px}
+  .nav{padding:0 10px 8px;gap:3px}
+  .nav button{padding:7px 10px;font-size:13px}
+  main{padding:22px 10px 55px}.hero{padding:12px 6px 12px}.hero h1{letter-spacing:-1px}
+  .chat-shell{border-radius:20px;padding:9px;margin-top:15px}
+  .composer{border-radius:17px;padding:10px}.bottom-row{align-items:stretch}.small-select{flex:1;min-width:145px}
+  .analyze{width:100%;margin-left:0;padding:13px}.features{grid-template-columns:1fr;gap:10px}
+  .feature{padding:16px}.section-card{padding:18px}
+}
+@media(min-width:721px){
+  .home-grid{display:block}
+}
 </style>
 </head>
 <body>
-<header>
-<div class="header">
-<div class="brand">
-<svg class="logo" viewBox="0 0 64 64" aria-label="Kisan AI logo">
-<path d="M8 48Q21 18 35 15Q27 31 18 46" fill="none" stroke="#087a3d" stroke-width="7" stroke-linecap="round"/>
-<path d="M15 46Q34 39 53 48" fill="none" stroke="#087a3d" stroke-width="6" stroke-linecap="round"/>
-<circle cx="48" cy="15" r="7" fill="#f4b51b"/>
-</svg>
-<div><h1>Kisan AI</h1><p>Smart Farming Assistant</p></div>
-</div>
-<nav>
-<button class="active">Home</button><button>About Us</button><button>Advice</button><button>Profile</button>
-</nav>
-<select id="siteLanguage" class="siteLang" aria-label="Website language">
-<option value="en">English</option><option value="hi">हिन्दी</option><option value="as">অসমীয়া</option><option value="bn">বাংলা</option>
-</select>
-<button class="profileBtn" aria-label="Profile">👤</button>
-</div>
+
+<header class="header">
+  <div class="header-inner">
+    <a class="brand" href="#" onclick="showSection('home');return false;">
+      <svg class="logo" viewBox="0 0 80 80" aria-label="Kisan AI logo">
+        <path d="M17 63C23 43 30 25 48 13" fill="none" stroke="#087f3f" stroke-width="10" stroke-linecap="round"/>
+        <path d="M19 61C33 52 48 50 64 56" fill="none" stroke="#087f3f" stroke-width="8" stroke-linecap="round"/>
+        <path d="M31 49C39 40 47 33 58 27" fill="none" stroke="#087f3f" stroke-width="6" stroke-linecap="round"/>
+        <circle cx="61" cy="14" r="10" fill="#f5b800"/>
+      </svg>
+      <span><div class="brand-name">Kisan AI</div><div class="brand-sub" data-i="subtitle">Smart Farming Assistant</div></span>
+    </a>
+    <div class="header-right">
+      <select id="siteLang" class="lang-select" aria-label="Website language"></select>
+      <button class="profile-btn" onclick="showSection('profile')" aria-label="Profile">👤</button>
+    </div>
+  </div>
+  <nav class="nav">
+    <button id="nav-home" class="active" onclick="showSection('home')" data-i="home">Home</button>
+    <button id="nav-about" onclick="showSection('about')" data-i="about">About Us</button>
+    <button id="nav-advice" onclick="showSection('advice')" data-i="advice">Advice</button>
+    <button id="nav-profile" onclick="showSection('profile')" data-i="profile">Profile</button>
+  </nav>
 </header>
 
 <main>
-<section class="hero">
-<h2>How can Kisan AI help?</h2>
-<p>Upload plant photos, ask by text or voice, and get practical farming guidance.</p>
+<section id="home" class="section active">
+  <div class="hero">
+    <h1 data-i="hero">How can Kisan AI help?</h1>
+    <p data-i="heroSub">Upload plant photos, ask by text or voice, and get practical farming guidance.</p>
+  </div>
+
+  <div class="chat-shell">
+    <div class="composer">
+      <div id="photoRow" class="photo-row"></div>
+      <div class="photo-actions">
+        <label class="attach-btn" for="photos">📷 <span data-i="attach">Add photos</span></label>
+        <span id="photoCount" class="photo-count" data-i="noPhotos">No photos selected</span>
+        <input id="photos" type="file" accept="image/*" multiple hidden>
+      </div>
+      <input id="plant" class="plant-input" data-placeholder="plant" placeholder="Plant / crop name (optional)">
+      <div class="question-wrap">
+        <textarea id="question" class="question" data-placeholder="question" placeholder="Ask anything about your plant or farming problem..."></textarea>
+        <button id="mic" class="mic-btn" title="Voice input">🎤</button>
+      </div>
+      <div class="bottom-row">
+        <select id="answerLang" class="small-select" aria-label="Answer language"></select>
+        <button id="analyze" class="analyze" data-i="analyze">Analyze</button>
+      </div>
+      <div id="status" class="status"></div>
+    </div>
+  </div>
+
+  <div id="results" class="results">
+    <div class="result-card"><h3 data-i="resultTitle">Kisan AI analysis</h3><div id="resultText" class="result-body"></div></div>
+  </div>
+
+  <div class="features">
+    <div class="feature"><div class="feature-icon">🔬</div><h3 data-i="feature1Title">Plant problem analysis</h3><p data-i="feature1">Disease, pest, weed, plant identification and nutrient-deficiency analysis.</p></div>
+    <div class="feature"><div class="feature-icon">💊</div><h3 data-i="feature2Title">Treatment guidance</h3><p data-i="feature2">Treatment options, dose, application method, safety and waiting-period guidance.</p></div>
+    <div class="feature"><div class="feature-icon">🌱</div><h3 data-i="feature3Title">Farming advice</h3><p data-i="feature3">Irrigation, nutrition, crop-stage care, prevention, market and farm-planning support.</p></div>
+  </div>
 </section>
 
-<section class="chat" aria-label="Kisan AI assistant">
-<div class="upload">
-<div class="uploadIcon">📷</div>
-<h3>Upload plant photos</h3>
-<p>You can upload multiple photos from different angles for better analysis.</p>
-<label for="photos">Choose photos</label>
-<input id="photos" type="file" accept="image/jpeg,image/png,image/webp" multiple>
-<div class="thumbs" id="thumbs"></div>
-</div>
-
-<div class="fields">
-<input id="plant" class="field" placeholder="Plant / crop name (optional)">
-<select id="answerLanguage" class="field" aria-label="Answer language">
-<option value="auto">Auto Detect</option>
-<option value="multi">Multi-language</option>
-<option>English</option><option>Hindi</option><option>Assamese</option><option>Bengali</option>
-<option>Tamil</option><option>Telugu</option><option>Marathi</option><option>Gujarati</option>
-<option>Punjabi</option><option>Kannada</option><option>Malayalam</option><option>Odia</option><option>Urdu</option>
-</select>
-</div>
-
-<div class="question">
-<textarea id="question" placeholder="Describe the problem or ask your farming question…"></textarea>
-<button id="voice" class="mic" aria-label="Voice input">🎤</button>
-</div>
-
-<button id="analyze" class="analyze">🔎 Analyze with Kisan AI</button>
-<div id="result" class="result"></div>
-<p class="notice">AI analysis is preliminary. Treatment recommendations should be checked against official agricultural guidance and product labels.</p>
+<section id="about" class="section">
+  <div class="section-card">
+    <h2 data-i="aboutTitle">About Kisan AI</h2>
+    <p data-i="aboutText">Kisan AI is designed as a simple agricultural assistant where farmers can use photos, text and voice to ask farming questions.</p>
+    <h3 data-i="currentTitle">Current services</h3>
+    <ul><li data-i="current1">Plant and crop problem analysis</li><li data-i="current2">Farming guidance through text and voice</li><li data-i="current3">Multi-language experience</li></ul>
+    <h3 data-i="futureTitle">Future services</h3>
+    <ul><li data-i="future1">Local weather and district advice</li><li data-i="future2">Verified treatment and crop-protection information</li><li data-i="future3">Market prices, selling and farm-planning support</li></ul>
+  </div>
 </section>
 
-<section class="quick">
-<div class="card"><div class="ico">🔬</div><h3>Problem & diagnosis</h3><p>Disease, pest, weed, plant identification and nutrient-deficiency analysis.</p></div>
-<div class="card"><div class="ico">💊</div><h3>Treatment guidance</h3><p>Verified treatment options, dose, application method, safety and waiting period.</p></div>
-<div class="card"><div class="ico">🌱</div><h3>Farming advice</h3><p>Irrigation, nutrition, crop-stage care, prevention, market and farm-planning support.</p></div>
+<section id="advice" class="section">
+  <div class="section-card">
+    <h2 data-i="adviceTitle">Farming Advice</h2>
+    <p data-i="adviceText">Ask Kisan AI about irrigation, nutrition, crop stage, pest prevention, harvest planning and other farming decisions.</p>
+  </div>
+</section>
+
+<section id="profile" class="section">
+  <div class="section-card">
+    <h2 data-i="profileTitle">Profile</h2>
+    <p data-i="profileText">Profile and secure farmer accounts will be added as the service grows.</p>
+    <div class="profile-form">
+      <input data-placeholder="name" placeholder="Name">
+      <input data-placeholder="mobile" placeholder="Mobile number">
+      <input data-placeholder="email" placeholder="Email">
+    </div>
+  </div>
 </section>
 </main>
 
-<footer>Kisan AI • Fasal ki problem? Kisan AI se poochho.</footer>
+<footer class="footer"><span>Kisan AI</span> • <span data-i="tagline">Fasal ki problem? Kisan AI se poochho.</span></footer>
+<div id="toast" class="toast"></div>
 
 <script>
-const input=document.getElementById("photos"),thumbs=document.getElementById("thumbs"),result=document.getElementById("result");
-let files=[];
-input.addEventListener("change",()=>{files=[...input.files];thumbs.innerHTML="";files.forEach((f,i)=>{const d=document.createElement("div");d.className="thumb";const img=document.createElement("img");img.src=URL.createObjectURL(f);img.alt=f.name;const n=document.createElement("span");n.textContent=i+1;d.append(img,n);thumbs.appendChild(d)})});
-function detectLanguage(t){if(/[\u0980-\u09FF]/.test(t))return /[অসমীয়াৱয়]/.test(t)?"Assamese":"Bengali";if(/[\u0900-\u097F]/.test(t))return" Hindi";return"English"}
-function language(){const v=document.getElementById("answerLanguage").value;return v==="auto"?detectLanguage(document.getElementById("question").value):v==="multi"?"Multi-language":v}
-function toDataURL(f){return new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(r.result);r.onerror=no;r.readAsDataURL(f)})}
-document.getElementById("analyze").addEventListener("click",async()=>{
- const q=document.getElementById("question").value.trim(),plant=document.getElementById("plant").value.trim(),btn=document.getElementById("analyze");
- if(!files.length&&!q){result.className="result error";result.style.display="block";result.textContent="Please upload a photo or enter a question.";return}
- btn.disabled=true;btn.textContent="⏳ Analyzing…";result.className="result";result.style.display="block";result.textContent="Kisan AI is analyzing…";
- try{
-  const images=await Promise.all(files.map(toDataURL));
-  const response=await fetch("https://kisan-ai-kznz.onrender.com/api/analyze",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({crop:plant,question:q,language:language(),image:images[0]||"",images})});
-  const data=await response.json().catch(()=>({}));
-  if(!response.ok)throw new Error(data.error||("Server error "+response.status));
-  result.textContent=data.answer||data.output||data.result||JSON.stringify(data,null,2);
- }catch(e){result.className="result error";result.textContent="Analysis could not be completed.\n\n"+e.message}
- finally{btn.disabled=false;btn.textContent="🔎 Analyze with Kisan AI"}
-});
-document.getElementById("voice").onclick=()=>{
- const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){alert("Voice input is not supported in this browser.");return}
- const r=new SR(),v=document.getElementById("answerLanguage").value;
- const map={English:"en-IN",Hindi:"hi-IN",Assamese:"as-IN",Bengali:"bn-IN",Tamil:"ta-IN",Telugu:"te-IN",Marathi:"mr-IN",Gujarati:"gu-IN",Punjabi:"pa-IN",Kannada:"kn-IN",Malayalam:"ml-IN",Odia:"or-IN",Urdu:"ur-IN"};
- r.lang=map[v]||"en-IN";r.onresult=e=>document.getElementById("question").value=e.results[0][0].transcript;r.start();
+const API_URL = "https://kisan-ai-kznz.onrender.com/api/analyze";
+
+const LANGS = {
+  en:{name:"English",speech:"en-IN",dict:{
+    subtitle:"Smart Farming Assistant",home:"Home",about:"About Us",advice:"Advice",profile:"Profile",
+    hero:"How can Kisan AI help?",heroSub:"Upload plant photos, ask by text or voice, and get practical farming guidance.",
+    attach:"Add photos",noPhotos:"No photos selected",plant:"Plant / crop name (optional)",
+    question:"Ask anything about your plant or farming problem...",analyze:"Analyze",auto:"Auto Detect",
+    resultTitle:"Kisan AI analysis",feature1Title:"Plant problem analysis",feature1:"Disease, pest, weed, plant identification and nutrient-deficiency analysis.",
+    feature2Title:"Treatment guidance",feature2:"Treatment options, dose, application method, safety and waiting-period guidance.",
+    feature3Title:"Farming advice",feature3:"Irrigation, nutrition, crop-stage care, prevention, market and farm-planning support.",
+    aboutTitle:"About Kisan AI",aboutText:"Kisan AI is designed as a simple agricultural assistant where farmers can use photos, text and voice to ask farming questions.",
+    currentTitle:"Current services",current1:"Plant and crop problem analysis",current2:"Farming guidance through text and voice",current3:"Multi-language experience",
+    futureTitle:"Future services",future1:"Local weather and district advice",future2:"Verified treatment and crop-protection information",future3:"Market prices, selling and farm-planning support",
+    adviceTitle:"Farming Advice",adviceText:"Ask Kisan AI about irrigation, nutrition, crop stage, pest prevention, harvest planning and other farming decisions.",
+    profileTitle:"Profile",profileText:"Profile and secure farmer accounts will be added as the service grows.",
+    name:"Name",mobile:"Mobile number",email:"Email",tagline:"Fasal ki problem? Kisan AI se poochho.",
+    selectPhotos:"Please select at least one plant photo.",working:"Analyzing your request…",error:"Something went wrong. Please try again."
+  }},
+  hi:{name:"हिन्दी",speech:"hi-IN",dict:{
+    subtitle:"स्मार्ट खेती सहायक",home:"होम",about:"हमारे बारे में",advice:"सलाह",profile:"प्रोफाइल",
+    hero:"Kisan AI आपकी कैसे मदद कर सकता है?",heroSub:"पौधे की फोटो अपलोड करें, टेक्स्ट या आवाज़ में पूछें और खेती की उपयोगी सलाह पाएं।",
+    attach:"फोटो जोड़ें",noPhotos:"कोई फोटो नहीं चुनी",plant:"पौधे / फसल का नाम (वैकल्पिक)",
+    question:"अपने पौधे या खेती की समस्या के बारे में पूछें...",analyze:"विश्लेषण करें",auto:"ऑटो डिटेक्ट",
+    resultTitle:"Kisan AI विश्लेषण",feature1Title:"पौधे की समस्या का विश्लेषण",feature1:"रोग, कीट, खरपतवार, पौधे की पहचान और पोषक तत्वों की कमी का विश्लेषण।",
+    feature2Title:"उपचार की सलाह",feature2:"उपचार विकल्प, मात्रा, उपयोग विधि, सुरक्षा और प्रतीक्षा अवधि की जानकारी।",
+    feature3Title:"खेती की सलाह",feature3:"सिंचाई, पोषण, फसल अवस्था, रोकथाम, बाजार और खेती की योजना में सहायता।",
+    aboutTitle:"Kisan AI के बारे में",aboutText:"Kisan AI एक सरल कृषि सहायक है जहां किसान फोटो, टेक्स्ट और आवाज़ से खेती से जुड़े सवाल पूछ सकते हैं।",
+    currentTitle:"वर्तमान सेवाएं",current1:"पौधे और फसल की समस्या का विश्लेषण",current2:"टेक्स्ट और आवाज़ से खेती की सलाह",current3:"बहुभाषी अनुभव",
+    futureTitle:"भविष्य की सेवाएं",future1:"स्थानीय मौसम और जिला-आधारित सलाह",future2:"सत्यापित उपचार और फसल सुरक्षा जानकारी",future3:"बाजार भाव, बिक्री और खेती की योजना",
+    adviceTitle:"खेती की सलाह",adviceText:"सिंचाई, पोषण, फसल अवस्था, कीट रोकथाम, कटाई की योजना और अन्य खेती के सवाल पूछें।",
+    profileTitle:"प्रोफाइल",profileText:"सेवा बढ़ने के साथ प्रोफाइल और सुरक्षित किसान अकाउंट जोड़े जाएंगे।",
+    name:"नाम",mobile:"मोबाइल नंबर",email:"ईमेल",tagline:"फसल की समस्या? Kisan AI से पूछो।",
+    selectPhotos:"कम से कम एक पौधे की फोटो चुनें।",working:"आपके सवाल का विश्लेषण हो रहा है…",error:"कुछ समस्या हुई। फिर से कोशिश करें।"
+  }},
+  as:{name:"অসমীয়া",speech:"as-IN",dict:{
+    subtitle:"স্মাৰ্ট কৃষি সহায়ক",home:"হোম",about:"আমাৰ বিষয়ে",advice:"পৰামৰ্শ",profile:"প্ৰফাইল",
+    hero:"Kisan AI-য়ে কেনেকৈ সহায় কৰিব পাৰে?",heroSub:"গছৰ ফটো আপলোড কৰক, লিখি বা কথাৰে সুধক আৰু ব্যৱহাৰিক কৃষি পৰামৰ্শ লাভ কৰক।",
+    attach:"ফটো যোগ কৰক",noPhotos:"কোনো ফটো বাছনি কৰা হোৱা নাই",plant:"গছ / শস্যৰ নাম (ঐচ্ছিক)",
+    question:"আপোনাৰ গছ বা কৃষিৰ সমস্যাৰ বিষয়ে সুধক...",analyze:"বিশ্লেষণ কৰক",auto:"অটো ডিটেক্ট",
+    resultTitle:"Kisan AI বিশ্লেষণ",feature1Title:"গছৰ সমস্যাৰ বিশ্লেষণ",feature1:"ৰোগ, কীট-পতংগ, অপতৃণ, গছৰ পৰিচয় আৰু পুষ্টিৰ অভাৱৰ বিশ্লেষণ।",
+    feature2Title:"চিকিৎসা / ব্যৱস্থাপনা পৰামৰ্শ",feature2:"ব্যৱস্থা, মাত্ৰা, প্ৰয়োগ পদ্ধতি, সুৰক্ষা আৰু অপেক্ষাৰ সময়ৰ পৰামৰ্শ।",
+    feature3Title:"কৃষি পৰামৰ্শ",feature3:"সিঞ্চন, পুষ্টি, শস্যৰ অৱস্থা, প্ৰতিৰোধ, বজাৰ আৰু কৃষি পৰিকল্পনাৰ সহায়।",
+    aboutTitle:"Kisan AI-ৰ বিষয়ে",aboutText:"Kisan AI এটা সহজ কৃষি সহায়ক, য'ত কৃষকে ফটো, লিখনী আৰু কণ্ঠস্বৰৰ জৰিয়তে কৃষিৰ প্ৰশ্ন সুধিব পাৰে।",
+    currentTitle:"বৰ্তমান সেৱা",current1:"গছ আৰু শস্যৰ সমস্যাৰ বিশ্লেষণ",current2:"লিখনী আৰু কণ্ঠস্বৰৰ জৰিয়তে কৃষি পৰামৰ্শ",current3:"বহুভাষিক সুবিধা",
+    futureTitle:"ভৱিষ্যৎ সেৱা",future1:"স্থানীয় বতৰ আৰু জিলা-ভিত্তিক পৰামৰ্শ",future2:"সত্যাপিত চিকিৎসা আৰু শস্য সুৰক্ষা তথ্য",future3:"বজাৰ মূল্য, বিক্ৰী আৰু কৃষি পৰিকল্পনা",
+    adviceTitle:"কৃষি পৰামৰ্শ",adviceText:"সিঞ্চন, পুষ্টি, শস্যৰ অৱস্থা, কীট-পতংগ প্ৰতিৰোধ, ফচল কটাৰ পৰিকল্পনা আদি বিষয়ে সুধক।",
+    profileTitle:"প্ৰফাইল",profileText:"সেৱা বৃদ্ধি পোৱাৰ লগে লগে প্ৰফাইল আৰু সুৰক্ষিত কৃষক একাউণ্ট যোগ কৰা হ'ব।",
+    name:"নাম",mobile:"মোবাইল নম্বৰ",email:"ইমেইল",tagline:"শস্যৰ সমস্যা? Kisan AI-ক সুধক।",
+    selectPhotos:"অন্ততঃ এখন গছৰ ফটো বাছনি কৰক।",working:"আপোনাৰ প্ৰশ্ন বিশ্লেষণ কৰা হৈছে…",error:"কিবা সমস্যা হৈছে। পুনৰ চেষ্টা কৰক।"
+  }},
+  bn:{name:"বাংলা",speech:"bn-IN",dict:{
+    subtitle:"স্মার্ট কৃষি সহায়ক",home:"হোম",about:"আমাদের সম্পর্কে",advice:"পরামর্শ",profile:"প্রোফাইল",
+    hero:"Kisan AI কীভাবে সাহায্য করতে পারে?",heroSub:"গাছের ছবি আপলোড করুন, লিখে বা কণ্ঠে প্রশ্ন করুন এবং ব্যবহারিক কৃষি পরামর্শ পান।",
+    attach:"ছবি যোগ করুন",noPhotos:"কোনও ছবি নির্বাচন করা হয়নি",plant:"গাছ / ফসলের নাম (ঐচ্ছিক)",
+    question:"আপনার গাছ বা কৃষি সমস্যার বিষয়ে প্রশ্ন করুন...",analyze:"বিশ্লেষণ করুন",auto:"অটো ডিটেক্ট",
+    resultTitle:"Kisan AI বিশ্লেষণ",feature1Title:"গাছের সমস্যা বিশ্লেষণ",feature1:"রোগ, পোকা, আগাছা, গাছ শনাক্তকরণ এবং পুষ্টির ঘাটতি বিশ্লেষণ।",
+    feature2Title:"চিকিৎসা নির্দেশনা",feature2:"চিকিৎসার বিকল্প, মাত্রা, প্রয়োগ পদ্ধতি, নিরাপত্তা ও অপেক্ষার সময়ের নির্দেশনা।",
+    feature3Title:"কৃষি পরামর্শ",feature3:"সেচ, পুষ্টি, ফসলের পর্যায়, প্রতিরোধ, বাজার ও খামার পরিকল্পনায় সহায়তা।",
+    aboutTitle:"Kisan AI সম্পর্কে",aboutText:"Kisan AI একটি সহজ কৃষি সহায়ক যেখানে কৃষক ছবি, লেখা ও কণ্ঠের মাধ্যমে কৃষি প্রশ্ন করতে পারেন।",
+    currentTitle:"বর্তমান পরিষেবা",current1:"গাছ ও ফসলের সমস্যা বিশ্লেষণ",current2:"লেখা ও কণ্ঠের মাধ্যমে কৃষি পরামর্শ",current3:"বহুভাষিক অভিজ্ঞতা",
+    futureTitle:"ভবিষ্যৎ পরিষেবা",future1:"স্থানীয় আবহাওয়া ও জেলা-ভিত্তিক পরামর্শ",future2:"যাচাইকৃত চিকিৎসা ও ফসল সুরক্ষা তথ্য",future3:"বাজারদর, বিক্রি ও খামার পরিকল্পনা",
+    adviceTitle:"কৃষি পরামর্শ",adviceText:"সেচ, পুষ্টি, ফসলের পর্যায়, পোকা প্রতিরোধ, ফসল কাটার পরিকল্পনা ও অন্যান্য কৃষি প্রশ্ন করুন।",
+    profileTitle:"প্রোফাইল",profileText:"পরিষেবা বাড়ার সঙ্গে সঙ্গে প্রোফাইল ও নিরাপদ কৃষক অ্যাকাউন্ট যোগ করা হবে।",
+    name:"নাম",mobile:"মোবাইল নম্বর",email:"ইমেল",tagline:"ফসলের সমস্যা? Kisan AI-কে জিজ্ঞেস করুন।",
+    selectPhotos:"অন্তত একটি গাছের ছবি নির্বাচন করুন।",working:"আপনার প্রশ্ন বিশ্লেষণ করা হচ্ছে…",error:"কিছু সমস্যা হয়েছে। আবার চেষ্টা করুন।"
+  }},
+  ta:{name:"தமிழ்",speech:"ta-IN",dict:{subtitle:"ஸ்மார்ட் விவசாய உதவியாளர்",home:"முகப்பு",about:"எங்களைப் பற்றி",advice:"ஆலோசனை",profile:"சுயவிவரம்",hero:"Kisan AI எப்படி உதவ முடியும்?",heroSub:"தாவரப் புகைப்படங்களைப் பதிவேற்றி, எழுத்து அல்லது குரலில் கேட்டு, நடைமுறை விவசாய ஆலோசனையைப் பெறுங்கள்.",attach:"புகைப்படங்களைச் சேர்க்கவும்",noPhotos:"புகைப்படம் தேர்வு செய்யப்படவில்லை",plant:"தாவரம் / பயிர் பெயர் (விருப்பம்)",question:"உங்கள் தாவரம் அல்லது விவசாயப் பிரச்சினையைப் பற்றி கேளுங்கள்...",analyze:"பகுப்பாய்வு",auto:"தானியங்கி கண்டறிதல்",resultTitle:"Kisan AI பகுப்பாய்வு",feature1Title:"தாவரப் பிரச்சினை பகுப்பாய்வு",feature1:"நோய், பூச்சி, களை, தாவர அடையாளம் மற்றும் ஊட்டச்சத்து குறைபாடு பகுப்பாய்வு.",feature2Title:"சிகிச்சை வழிகாட்டுதல்",feature2:"சிகிச்சை விருப்பங்கள், அளவு, பயன்பாடு, பாதுகாப்பு மற்றும் காத்திருப்பு காலம்.",feature3Title:"விவசாய ஆலோசனை",feature3:"நீர்ப்பாசனம், ஊட்டச்சத்து, பயிர் நிலை, தடுப்பு, சந்தை மற்றும் பண்ணைத் திட்டமிடல்.",aboutTitle:"Kisan AI பற்றி",aboutText:"Kisan AI ஒரு எளிய விவசாய உதவியாளர். விவசாயிகள் புகைப்படம், உரை மற்றும் குரல் மூலம் கேள்விகள் கேட்கலாம்.",currentTitle:"தற்போதைய சேவைகள்",current1:"தாவர மற்றும் பயிர் பிரச்சினை பகுப்பாய்வு",current2:"உரை மற்றும் குரல் மூலம் விவசாய ஆலோசனை",current3:"பல மொழி அனுபவம்",futureTitle:"எதிர்கால சேவைகள்",future1:"உள்ளூர் வானிலை மற்றும் மாவட்ட ஆலோசனை",future2:"சரிபார்க்கப்பட்ட சிகிச்சை மற்றும் பயிர் பாதுகாப்புத் தகவல்",future3:"சந்தை விலை, விற்பனை மற்றும் பண்ணைத் திட்டமிடல்",adviceTitle:"விவசாய ஆலோசனை",adviceText:"நீர்ப்பாசனம், ஊட்டச்சத்து, பயிர் நிலை, பூச்சி தடுப்பு, அறுவடைத் திட்டம் போன்றவற்றைக் கேளுங்கள்.",profileTitle:"சுயவிவரம்",profileText:"சேவை வளரும்போது சுயவிவரம் மற்றும் பாதுகாப்பான விவசாயி கணக்குகள் சேர்க்கப்படும்.",name:"பெயர்",mobile:"மொபைல் எண்",email:"மின்னஞ்சல்",tagline:"பயிர் பிரச்சினையா? Kisan AI-யிடம் கேளுங்கள்.",selectPhotos:"குறைந்தது ஒரு தாவரப் புகைப்படத்தைத் தேர்வு செய்யவும்.",working:"உங்கள் கேள்வி பகுப்பாய்வு செய்யப்படுகிறது…",error:"ஏதோ தவறு ஏற்பட்டது. மீண்டும் முயற்சிக்கவும்."}},
+  te:{name:"తెలుగు",speech:"te-IN",dict:{subtitle:"స్మార్ట్ వ్యవసాయ సహాయకుడు",home:"హోమ్",about:"మా గురించి",advice:"సలహా",profile:"ప్రొఫైల్",hero:"Kisan AI ఎలా సహాయపడుతుంది?",heroSub:"మొక్కల ఫోటోలు అప్‌లోడ్ చేసి, టెక్స్ట్ లేదా వాయిస్‌తో అడిగి, ఉపయోగకరమైన వ్యవసాయ సలహా పొందండి.",attach:"ఫోటోలు జోడించండి",noPhotos:"ఫోటోలు ఎంచుకోలేదు",plant:"మొక్క / పంట పేరు (ఐచ్ఛికం)",question:"మీ మొక్క లేదా వ్యవసాయ సమస్య గురించి అడగండి...",analyze:"విశ్లేషించండి",auto:"ఆటో డిటెక్ట్",resultTitle:"Kisan AI విశ్లేషణ",feature1Title:"మొక్క సమస్య విశ్లేషణ",feature1:"వ్యాధి, పురుగు, కలుపు, మొక్క గుర్తింపు మరియు పోషక లోప విశ్లేషణ.",feature2Title:"చికిత్స మార్గదర్శకం",feature2:"చికిత్స ఎంపికలు, మోతాదు, ఉపయోగ విధానం, భద్రత మరియు వేచి ఉండే కాలం.",feature3Title:"వ్యవసాయ సలహా",feature3:"నీటిపారుదల, పోషణ, పంట దశ, నివారణ, మార్కెట్ మరియు వ్యవసాయ ప్రణాళిక.",aboutTitle:"Kisan AI గురించి",aboutText:"Kisan AI సులభమైన వ్యవసాయ సహాయకుడు. రైతులు ఫోటో, టెక్స్ట్ మరియు వాయిస్ ద్వారా ప్రశ్నలు అడగవచ్చు.",currentTitle:"ప్రస్తుత సేవలు",current1:"మొక్క మరియు పంట సమస్య విశ్లేషణ",current2:"టెక్స్ట్ మరియు వాయిస్ ద్వారా వ్యవసాయ సలహా",current3:"బహుభాషా అనుభవం",futureTitle:"భవిష్యత్ సేవలు",future1:"స్థానిక వాతావరణం మరియు జిల్లా సలహా",future2:"ధృవీకరించిన చికిత్స మరియు పంట రక్షణ సమాచారం",future3:"మార్కెట్ ధరలు, అమ్మకం మరియు వ్యవసాయ ప్రణాళిక",adviceTitle:"వ్యవసాయ సలహా",adviceText:"నీటిపారుదల, పోషణ, పంట దశ, పురుగు నివారణ, కోత ప్రణాళిక మొదలైనవి అడగండి.",profileTitle:"ప్రొఫైల్",profileText:"సేవ పెరిగేకొద్దీ ప్రొఫైల్ మరియు సురక్షిత రైతు ఖాతాలు జోడించబడతాయి.",name:"పేరు",mobile:"మొబైల్ నంబర్",email:"ఇమెయిల్",tagline:"పంట సమస్యా? Kisan AIని అడగండి.",selectPhotos:"కనీసం ఒక మొక్క ఫోటో ఎంచుకోండి.",working:"మీ ప్రశ్నను విశ్లేషిస్తున్నాము…",error:"ఏదో సమస్య వచ్చింది. మళ్లీ ప్రయత్నించండి."}},
+  mr:{name:"मराठी",speech:"mr-IN",dict:{subtitle:"स्मार्ट शेती सहाय्यक",home:"मुख्यपृष्ठ",about:"आमच्याबद्दल",advice:"सल्ला",profile:"प्रोफाइल",hero:"Kisan AI कशी मदत करू शकते?",heroSub:"पिकांचे फोटो अपलोड करा, मजकूर किंवा आवाजात विचारा आणि शेतीविषयक उपयुक्त मार्गदर्शन मिळवा.",attach:"फोटो जोडा",noPhotos:"फोटो निवडलेले नाहीत",plant:"वनस्पती / पिकाचे नाव (ऐच्छिक)",question:"तुमच्या वनस्पती किंवा शेतीच्या समस्येबद्दल विचारा...",analyze:"विश्लेषण करा",auto:"ऑटो डिटेक्ट",resultTitle:"Kisan AI विश्लेषण",feature1Title:"वनस्पती समस्या विश्लेषण",feature1:"रोग, कीड, तण, वनस्पती ओळख आणि पोषण कमतरता विश्लेषण.",feature2Title:"उपचार मार्गदर्शन",feature2:"उपचार पर्याय, मात्रा, वापर पद्धत, सुरक्षितता आणि प्रतीक्षा कालावधी.",feature3Title:"शेती सल्ला",feature3:"सिंचन, पोषण, पिकाची अवस्था, प्रतिबंध, बाजार आणि शेती नियोजन.",aboutTitle:"Kisan AI बद्दल",aboutText:"Kisan AI हा सोपा शेती सहाय्यक आहे. शेतकरी फोटो, मजकूर आणि आवाजातून प्रश्न विचारू शकतात.",currentTitle:"सध्याच्या सेवा",current1:"वनस्पती आणि पिकांच्या समस्यांचे विश्लेषण",current2:"मजकूर आणि आवाजाद्वारे शेती सल्ला",current3:"बहुभाषिक अनुभव",futureTitle:"भविष्यातील सेवा",future1:"स्थानिक हवामान आणि जिल्हानिहाय सल्ला",future2:"सत्यापित उपचार आणि पीक संरक्षण माहिती",future3:"बाजारभाव, विक्री आणि शेती नियोजन",adviceTitle:"शेती सल्ला",adviceText:"सिंचन, पोषण, पिकाची अवस्था, कीड प्रतिबंध, कापणीचे नियोजन आणि इतर शेती प्रश्न विचारा.",profileTitle:"प्रोफाइल",profileText:"सेवा वाढल्यावर प्रोफाइल आणि सुरक्षित शेतकरी खाती जोडली जातील.",name:"नाव",mobile:"मोबाईल नंबर",email:"ईमेल",tagline:"पिकाची समस्या? Kisan AI ला विचारा.",selectPhotos:"किमान एक वनस्पती फोटो निवडा.",working:"तुमच्या प्रश्नाचे विश्लेषण होत आहे…",error:"काहीतरी चूक झाली. पुन्हा प्रयत्न करा."}},
+  gu:{name:"ગુજરાતી",speech:"gu-IN",dict:{subtitle:"સ્માર્ટ ખેતી સહાયક",home:"હોમ",about:"અમારા વિશે",advice:"સલાહ",profile:"પ્રોફાઇલ",hero:"Kisan AI કેવી રીતે મદદ કરી શકે?",heroSub:"છોડના ફોટા અપલોડ કરો, લખીને અથવા અવાજથી પૂછો અને ઉપયોગી ખેતી માર્ગદર્શન મેળવો.",attach:"ફોટા ઉમેરો",noPhotos:"કોઈ ફોટા પસંદ નથી",plant:"છોડ / પાકનું નામ (વૈકલ્પિક)",question:"તમારા છોડ અથવા ખેતીની સમસ્યા વિશે પૂછો...",analyze:"વિશ્લેષણ કરો",auto:"ઓટો ડિટેક્ટ",resultTitle:"Kisan AI વિશ્લેષણ",feature1Title:"છોડની સમસ્યા વિશ્લેષણ",feature1:"રોગ, જીવાત, નીંદણ, છોડની ઓળખ અને પોષક તત્ત્વોની ઉણપનું વિશ્લેષણ.",feature2Title:"સારવાર માર્ગદર્શન",feature2:"સારવારના વિકલ્પો, માત્રા, ઉપયોગ પદ્ધતિ, સલામતી અને રાહ જોવાનો સમય.",feature3Title:"ખેતી સલાહ",feature3:"સિંચાઈ, પોષણ, પાકની અવસ્થા, નિવારણ, બજાર અને ખેતી આયોજન.",aboutTitle:"Kisan AI વિશે",aboutText:"Kisan AI એક સરળ ખેતી સહાયક છે જ્યાં ખેડૂત ફોટા, લખાણ અને અવાજથી પ્રશ્નો પૂછી શકે છે.",currentTitle:"હાલની સેવાઓ",current1:"છોડ અને પાકની સમસ્યા વિશ્લેષણ",current2:"લખાણ અને અવાજ દ્વારા ખેતી સલાહ",current3:"બહુભાષી અનુભવ",futureTitle:"ભવિષ્યની સેવાઓ",future1:"સ્થાનિક હવામાન અને જિલ્લા સલાહ",future2:"ચકાસેલી સારવાર અને પાક સુરક્ષા માહિતી",future3:"બજાર ભાવ, વેચાણ અને ખેતી આયોજન",adviceTitle:"ખેતી સલાહ",adviceText:"સિંચાઈ, પોષણ, પાકની અવસ્થા, જીવાત નિવારણ, લણણી આયોજન વગેરે વિશે પૂછો.",profileTitle:"પ્રોફાઇલ",profileText:"સેવા વધશે તેમ પ્રોફાઇલ અને સુરક્ષિત ખેડૂત ખાતા ઉમેરવામાં આવશે.",name:"નામ",mobile:"મોબાઇલ નંબર",email:"ઇમેઇલ",tagline:"પાકની સમસ્યા? Kisan AI ને પૂછો.",selectPhotos:"ઓછામાં ઓછો એક છોડનો ફોટો પસંદ કરો.",working:"તમારા પ્રશ્નનું વિશ્લેષણ થઈ રહ્યું છે…",error:"કંઈક ખોટું થયું. ફરી પ્રયાસ કરો."}},
+  pa:{name:"ਪੰਜਾਬੀ",speech:"pa-IN",dict:{subtitle:"ਸਮਾਰਟ ਖੇਤੀ ਸਹਾਇਕ",home:"ਹੋਮ",about:"ਸਾਡੇ ਬਾਰੇ",advice:"ਸਲਾਹ",profile:"ਪ੍ਰੋਫਾਈਲ",hero:"Kisan AI ਕਿਵੇਂ ਮਦਦ ਕਰ ਸਕਦਾ ਹੈ?",heroSub:"ਪੌਦਿਆਂ ਦੀਆਂ ਤਸਵੀਰਾਂ ਅੱਪਲੋਡ ਕਰੋ, ਲਿਖ ਕੇ ਜਾਂ ਆਵਾਜ਼ ਨਾਲ ਪੁੱਛੋ ਅਤੇ ਖੇਤੀਬਾੜੀ ਦੀ ਵਰਤੋਂਯੋਗ ਸਲਾਹ ਲਵੋ।",attach:"ਤਸਵੀਰਾਂ ਜੋੜੋ",noPhotos:"ਕੋਈ ਤਸਵੀਰ ਨਹੀਂ ਚੁਣੀ",plant:"ਪੌਦੇ / ਫਸਲ ਦਾ ਨਾਮ (ਵਿਕਲਪਿਕ)",question:"ਆਪਣੇ ਪੌਦੇ ਜਾਂ ਖੇਤੀ ਦੀ ਸਮੱਸਿਆ ਬਾਰੇ ਪੁੱਛੋ...",analyze:"ਵਿਸ਼ਲੇਸ਼ਣ ਕਰੋ",auto:"ਆਟੋ ਡਿਟੈਕਟ",resultTitle:"Kisan AI ਵਿਸ਼ਲੇਸ਼ਣ",feature1Title:"ਪੌਦੇ ਦੀ ਸਮੱਸਿਆ ਦਾ ਵਿਸ਼ਲੇਸ਼ਣ",feature1:"ਬਿਮਾਰੀ, ਕੀੜੇ, ਜੰਗਲੀ ਘਾਹ, ਪੌਦੇ ਦੀ ਪਛਾਣ ਅਤੇ ਪੋਸ਼ਕ ਤੱਤਾਂ ਦੀ ਕਮੀ ਦਾ ਵਿਸ਼ਲੇਸ਼ਣ।",feature2Title:"ਇਲਾਜ ਮਾਰਗਦਰਸ਼ਨ",feature2:"ਇਲਾਜ ਦੇ ਵਿਕਲਪ, ਮਾਤਰਾ, ਵਰਤੋਂ ਦੀ ਵਿਧੀ, ਸੁਰੱਖਿਆ ਅਤੇ ਉਡੀਕ ਸਮਾਂ।",feature3Title:"ਖੇਤੀ ਸਲਾਹ",feature3:"ਸਿੰਚਾਈ, ਪੋਸ਼ਣ, ਫਸਲ ਦੀ ਅਵਸਥਾ, ਰੋਕਥਾਮ, ਬਾਜ਼ਾਰ ਅਤੇ ਖੇਤੀ ਯੋਜਨਾ।",aboutTitle:"Kisan AI ਬਾਰੇ",aboutText:"Kisan AI ਇੱਕ ਸਧਾਰਨ ਖੇਤੀ ਸਹਾਇਕ ਹੈ ਜਿੱਥੇ ਕਿਸਾਨ ਤਸਵੀਰ, ਲਿਖਤ ਅਤੇ ਆਵਾਜ਼ ਰਾਹੀਂ ਸਵਾਲ ਪੁੱਛ ਸਕਦੇ ਹਨ।",currentTitle:"ਮੌਜੂਦਾ ਸੇਵਾਵਾਂ",current1:"ਪੌਦੇ ਅਤੇ ਫਸਲ ਦੀ ਸਮੱਸਿਆ ਦਾ ਵਿਸ਼ਲੇਸ਼ਣ",current2:"ਲਿਖਤ ਅਤੇ ਆਵਾਜ਼ ਰਾਹੀਂ ਖੇਤੀ ਸਲਾਹ",current3:"ਬਹੁ-ਭਾਸ਼ਾਈ ਅਨੁਭਵ",futureTitle:"ਭਵਿੱਖ ਦੀਆਂ ਸੇਵਾਵਾਂ",future1:"ਸਥਾਨਕ ਮੌਸਮ ਅਤੇ ਜ਼ਿਲ੍ਹਾ ਸਲਾਹ",future2:"ਪ੍ਰਮਾਣਿਤ ਇਲਾਜ ਅਤੇ ਫਸਲ ਸੁਰੱਖਿਆ ਜਾਣਕਾਰੀ",future3:"ਬਾਜ਼ਾਰ ਭਾਅ, ਵਿਕਰੀ ਅਤੇ ਖੇਤੀ ਯੋਜਨਾ",adviceTitle:"ਖੇਤੀ ਸਲਾਹ",adviceText:"ਸਿੰਚਾਈ, ਪੋਸ਼ਣ, ਫਸਲ ਦੀ ਅਵਸਥਾ, ਕੀੜਿਆਂ ਦੀ ਰੋਕਥਾਮ, ਕਟਾਈ ਦੀ ਯੋਜਨਾ ਆਦਿ ਬਾਰੇ ਪੁੱਛੋ।",profileTitle:"ਪ੍ਰੋਫਾਈਲ",profileText:"ਸੇਵਾ ਵਧਣ ਨਾਲ ਪ੍ਰੋਫਾਈਲ ਅਤੇ ਸੁਰੱਖਿਅਤ ਕਿਸਾਨ ਖਾਤੇ ਜੋੜੇ ਜਾਣਗੇ।",name:"ਨਾਮ",mobile:"ਮੋਬਾਈਲ ਨੰਬਰ",email:"ਈਮੇਲ",tagline:"ਫਸਲ ਦੀ ਸਮੱਸਿਆ? Kisan AI ਨੂੰ ਪੁੱਛੋ।",selectPhotos:"ਘੱਟੋ-ਘੱਟ ਇੱਕ ਪੌਦੇ ਦੀ ਤਸਵੀਰ ਚੁਣੋ।",working:"ਤੁਹਾਡੇ ਸਵਾਲ ਦਾ ਵਿਸ਼ਲੇਸ਼ਣ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ…",error:"ਕੁਝ ਗਲਤ ਹੋਇਆ। ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।"}},
+  kn:{name:"ಕನ್ನಡ",speech:"kn-IN",dict:{subtitle:"ಸ್ಮಾರ್ಟ್ ಕೃಷಿ ಸಹಾಯಕ",home:"ಮುಖಪುಟ",about:"ನಮ್ಮ ಬಗ್ಗೆ",advice:"ಸಲಹೆ",profile:"ಪ್ರೊಫೈಲ್",hero:"Kisan AI ಹೇಗೆ ಸಹಾಯ ಮಾಡಬಹುದು?",heroSub:"ಸಸ್ಯಗಳ ಫೋಟೋಗಳನ್ನು ಅಪ್‌ಲೋಡ್ ಮಾಡಿ, ಪಠ್ಯ ಅಥವಾ ಧ್ವನಿಯಲ್ಲಿ ಕೇಳಿ ಮತ್ತು ಪ್ರಾಯೋಗಿಕ ಕೃಷಿ ಮಾರ್ಗದರ್ಶನ ಪಡೆಯಿರಿ.",attach:"ಫೋಟೋ ಸೇರಿಸಿ",noPhotos:"ಯಾವುದೇ ಫೋಟೋ ಆಯ್ಕೆ ಮಾಡಿಲ್ಲ",plant:"ಸಸ್ಯ / ಬೆಳೆ ಹೆಸರು (ಐಚ್ಛಿಕ)",question:"ನಿಮ್ಮ ಸಸ್ಯ ಅಥವಾ ಕೃಷಿ ಸಮಸ್ಯೆಯ ಬಗ್ಗೆ ಕೇಳಿ...",analyze:"ವಿಶ್ಲೇಷಿಸಿ",auto:"ಆಟೋ ಡಿಟೆಕ್ಟ್",resultTitle:"Kisan AI ವಿಶ್ಲೇಷಣೆ",feature1Title:"ಸಸ್ಯ ಸಮಸ್ಯೆ ವಿಶ್ಲೇಷಣೆ",feature1:"ರೋಗ, ಕೀಟ, ಕಳೆ, ಸಸ್ಯ ಗುರುತು ಮತ್ತು ಪೋಷಕಾಂಶ ಕೊರತೆ ವಿಶ್ಲೇಷಣೆ.",feature2Title:"ಚಿಕಿತ್ಸಾ ಮಾರ್ಗದರ್ಶನ",feature2:"ಚಿಕಿತ್ಸಾ ಆಯ್ಕೆಗಳು, ಪ್ರಮಾಣ, ಬಳಕೆ ವಿಧಾನ, ಸುರಕ್ಷತೆ ಮತ್ತು ಕಾಯುವ ಅವಧಿ.",feature3Title:"ಕೃಷಿ ಸಲಹೆ",feature3:"ನೀರಾವರಿ, ಪೋಷಣೆ, ಬೆಳೆ ಹಂತ, ತಡೆಗಟ್ಟುವಿಕೆ, ಮಾರುಕಟ್ಟೆ ಮತ್ತು ಕೃಷಿ ಯೋಜನೆ.",aboutTitle:"Kisan AI ಬಗ್ಗೆ",aboutText:"Kisan AI ಸರಳ ಕೃಷಿ ಸಹಾಯಕ. ರೈತರು ಫೋಟೋ, ಪಠ್ಯ ಮತ್ತು ಧ್ವನಿಯ ಮೂಲಕ ಕೃಷಿ ಪ್ರಶ್ನೆಗಳನ್ನು ಕೇಳಬಹುದು.",currentTitle:"ಪ್ರಸ್ತುತ ಸೇವೆಗಳು",current1:"ಸಸ್ಯ ಮತ್ತು ಬೆಳೆ ಸಮಸ್ಯೆ ವಿಶ್ಲೇಷಣೆ",current2:"ಪಠ್ಯ ಮತ್ತು ಧ್ವನಿಯ ಮೂಲಕ ಕೃಷಿ ಸಲಹೆ",current3:"ಬಹುಭಾಷಾ ಅನುಭವ",futureTitle:"ಭವಿಷ್ಯದ ಸೇವೆಗಳು",future1:"ಸ್ಥಳೀಯ ಹವಾಮಾನ ಮತ್ತು ಜಿಲ್ಲಾವಾರು ಸಲಹೆ",future2:"ಪರಿಶೀಲಿಸಿದ ಚಿಕಿತ್ಸೆ ಮತ್ತು ಬೆಳೆ ರಕ್ಷಣೆ ಮಾಹಿತಿ",future3:"ಮಾರುಕಟ್ಟೆ ಬೆಲೆ, ಮಾರಾಟ ಮತ್ತು ಕೃಷಿ ಯೋಜನೆ",adviceTitle:"ಕೃಷಿ ಸಲಹೆ",adviceText:"ನೀರಾವರಿ, ಪೋಷಣೆ, ಬೆಳೆ ಹಂತ, ಕೀಟ ತಡೆ, ಕೊಯ್ಲು ಯೋಜನೆ ಇತ್ಯಾದಿಗಳ ಬಗ್ಗೆ ಕೇಳಿ.",profileTitle:"ಪ್ರೊಫೈಲ್",profileText:"ಸೇವೆ ಬೆಳೆಯುತ್ತಿದ್ದಂತೆ ಪ್ರೊಫೈಲ್ ಮತ್ತು ಸುರಕ್ಷಿತ ರೈತ ಖಾತೆಗಳನ್ನು ಸೇರಿಸಲಾಗುತ್ತದೆ.",name:"ಹೆಸರು",mobile:"ಮೊಬೈಲ್ ಸಂಖ್ಯೆ",email:"ಇಮೇಲ್",tagline:"ಬೆಳೆ ಸಮಸ್ಯೆಯೇ? Kisan AIಗೆ ಕೇಳಿ.",selectPhotos:"ಕನಿಷ್ಠ ಒಂದು ಸಸ್ಯದ ಫೋಟೋ ಆಯ್ಕೆಮಾಡಿ.",working:"ನಿಮ್ಮ ಪ್ರಶ್ನೆಯನ್ನು ವಿಶ್ಲೇಷಿಸಲಾಗುತ್ತಿದೆ…",error:"ಏನೋ ತಪ್ಪಾಗಿದೆ. ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ."}},
+  ml:{name:"മലയാളം",speech:"ml-IN",dict:{subtitle:"സ്മാർട്ട് കൃഷി സഹായി",home:"ഹോം",about:"ഞങ്ങളെക്കുറിച്ച്",advice:"ഉപദേശം",profile:"പ്രൊഫൈൽ",hero:"Kisan AI എങ്ങനെ സഹായിക്കും?",heroSub:"ചെടികളുടെ ഫോട്ടോകൾ അപ്‌ലോഡ് ചെയ്യുക, ടെക്സ്റ്റ് അല്ലെങ്കിൽ ശബ്ദത്തിൽ ചോദിക്കുക, പ്രായോഗിക കൃഷി നിർദ്ദേശങ്ങൾ നേടുക.",attach:"ഫോട്ടോകൾ ചേർക്കുക",noPhotos:"ഫോട്ടോകൾ തിരഞ്ഞെടുത്തിട്ടില്ല",plant:"ചെടി / വിളയുടെ പേര് (ഓപ്ഷണൽ)",question:"നിങ്ങളുടെ ചെടി അല്ലെങ്കിൽ കൃഷി പ്രശ്നത്തെക്കുറിച്ച് ചോദിക്കുക...",analyze:"വിശകലനം ചെയ്യുക",auto:"ഓട്ടോ ഡിറ്റക്റ്റ്",resultTitle:"Kisan AI വിശകലനം",feature1Title:"ചെടി പ്രശ്ന വിശകലനം",feature1:"രോഗം, കീടം, കള, ചെടി തിരിച്ചറിയൽ, പോഷകക്കുറവ് എന്നിവയുടെ വിശകലനം.",feature2Title:"ചികിത്സാ മാർഗനിർദ്ദേശം",feature2:"ചികിത്സാ മാർഗങ്ങൾ, അളവ്, പ്രയോഗരീതി, സുരക്ഷ, കാത്തിരിപ്പ് കാലയളവ്.",feature3Title:"കൃഷി ഉപദേശം",feature3:"ജലസേചനം, പോഷണം, വിളയുടെ ഘട്ടം, പ്രതിരോധം, വിപണി, കൃഷി ആസൂത്രണം.",aboutTitle:"Kisan AIയെക്കുറിച്ച്",aboutText:"Kisan AI ലളിതമായ ഒരു കൃഷി സഹായി ആണ്. കർഷകർക്ക് ഫോട്ടോ, ടെക്സ്റ്റ്, ശബ്ദം എന്നിവ ഉപയോഗിച്ച് ചോദ്യങ്ങൾ ചോദിക്കാം.",currentTitle:"നിലവിലെ സേവനങ്ങൾ",current1:"ചെടി, വിള പ്രശ്ന വിശകലനം",current2:"ടെക്സ്റ്റ്, ശബ്ദം വഴി കൃഷി ഉപദേശം",current3:"ബഹുഭാഷാ അനുഭവം",futureTitle:"ഭാവി സേവനങ്ങൾ",future1:"പ്രാദേശിക കാലാവസ്ഥ, ജില്ല അടിസ്ഥാന ഉപദേശം",future2:"പരിശോധിച്ച ചികിത്സ, വിള സംരക്ഷണ വിവരം",future3:"വിപണി വില, വിൽപ്പന, കൃഷി ആസൂത്രണം",adviceTitle:"കൃഷി ഉപദേശം",adviceText:"ജലസേചനം, പോഷണം, വിള ഘട്ടം, കീട പ്രതിരോധം, വിളവെടുപ്പ് ആസൂത്രണം എന്നിവ ചോദിക്കുക.",profileTitle:"പ്രൊഫൈൽ",profileText:"സേവനം വളരുന്നതിനനുസരിച്ച് പ്രൊഫൈലും സുരക്ഷിത കർഷക അക്കൗണ്ടുകളും ചേർക്കും.",name:"പേര്",mobile:"മൊബൈൽ നമ്പർ",email:"ഇമെയിൽ",tagline:"വിള പ്രശ്നമുണ്ടോ? Kisan AIയോട് ചോദിക്കൂ.",selectPhotos:"കുറഞ്ഞത് ഒരു ചെടിയുടെ ഫോട്ടോ തിരഞ്ഞെടുക്കുക.",working:"നിങ്ങളുടെ ചോദ്യം വിശകലനം ചെയ്യുന്നു…",error:"എന്തോ തെറ്റായി. വീണ്ടും ശ്രമിക്കുക."}},
+  od:{name:"ଓଡ଼ିଆ",speech:"or-IN",dict:{subtitle:"ସ୍ମାର୍ଟ କୃଷି ସହାୟକ",home:"ହୋମ୍",about:"ଆମ ବିଷୟରେ",advice:"ପରାମର୍ଶ",profile:"ପ୍ରୋଫାଇଲ୍",hero:"Kisan AI କିପରି ସାହାଯ୍ୟ କରିପାରିବ?",heroSub:"ଗଛର ଫଟୋ ଅପଲୋଡ୍ କରନ୍ତୁ, ଲେଖି କିମ୍ବା ସ୍ୱରରେ ପଚାରନ୍ତୁ ଏବଂ ବ୍ୟବହାରିକ କୃଷି ପରାମର୍ଶ ପାଆନ୍ତୁ।",attach:"ଫଟୋ ଯୋଡନ୍ତୁ",noPhotos:"କୌଣସି ଫଟୋ ଚୟନ ହୋଇନାହିଁ",plant:"ଗଛ / ଫସଲର ନାମ (ଇଚ୍ଛାଧୀନ)",question:"ଆପଣଙ୍କ ଗଛ କିମ୍ବା କୃଷି ସମସ୍ୟା ବିଷୟରେ ପଚାରନ୍ତୁ...",analyze:"ବିଶ୍ଳେଷଣ କରନ୍ତୁ",auto:"ଅଟୋ ଡିଟେକ୍ଟ",resultTitle:"Kisan AI ବିଶ୍ଳେଷଣ",feature1Title:"ଗଛ ସମସ୍ୟା ବିଶ୍ଳେଷଣ",feature1:"ରୋଗ, କୀଟ, ଅନାବନା ଘାସ, ଗଛ ଚିହ୍ନଟ ଏବଂ ପୋଷକ ଅଭାବ ବିଶ୍ଳେଷଣ।",feature2Title:"ଚିକିତ୍ସା ପରାମର୍ଶ",feature2:"ଚିକିତ୍ସା ବିକଳ୍ପ, ମାତ୍ରା, ପ୍ରୟୋଗ ପଦ୍ଧତି, ସୁରକ୍ଷା ଏବଂ ଅପେକ୍ଷା ସମୟ।",feature3Title:"କୃଷି ପରାମର୍ଶ",feature3:"ଜଳସେଚନ, ପୋଷଣ, ଫସଲ ଅବସ୍ଥା, ପ୍ରତିରୋଧ, ବଜାର ଏବଂ କୃଷି ଯୋଜନା।",aboutTitle:"Kisan AI ବିଷୟରେ",aboutText:"Kisan AI ଏକ ସରଳ କୃଷି ସହାୟକ। କୃଷକମାନେ ଫଟୋ, ଲେଖା ଏବଂ ସ୍ୱରରେ ପ୍ରଶ୍ନ ପଚାରିପାରିବେ।",currentTitle:"ବର୍ତ୍ତମାନ ସେବା",current1:"ଗଛ ଏବଂ ଫସଲ ସମସ୍ୟା ବିଶ୍ଳେଷଣ",current2:"ଲେଖା ଏବଂ ସ୍ୱରରେ କୃଷି ପରାମର୍ଶ",current3:"ବହୁଭାଷୀ ଅନୁଭବ",futureTitle:"ଭବିଷ୍ୟତ ସେବା",future1:"ସ୍ଥାନୀୟ ପାଣିପାଗ ଏବଂ ଜିଲ୍ଲା ପରାମର୍ଶ",future2:"ଯାଞ୍ଚିତ ଚିକିତ୍ସା ଏବଂ ଫସଲ ସୁରକ୍ଷା ସୂଚନା",future3:"ବଜାର ଦର, ବିକ୍ରି ଏବଂ କୃଷି ଯୋଜନା",adviceTitle:"କୃଷି ପରାମର୍ଶ",adviceText:"ଜଳସେଚନ, ପୋଷଣ, ଫସଲ ଅବସ୍ଥା, କୀଟ ନିୟନ୍ତ୍ରଣ, ଅମଳ ଯୋଜନା ଆଦି ବିଷୟରେ ପଚାରନ୍ତୁ।",profileTitle:"ପ୍ରୋଫାଇଲ୍",profileText:"ସେବା ବଢିବା ସହିତ ପ୍ରୋଫାଇଲ୍ ଏବଂ ସୁରକ୍ଷିତ କୃଷକ ଆକାଉଣ୍ଟ ଯୋଡାଯିବ।",name:"ନାମ",mobile:"ମୋବାଇଲ୍ ନମ୍ବର",email:"ଇମେଲ୍",tagline:"ଫସଲ ସମସ୍ୟା? Kisan AIକୁ ପଚାରନ୍ତୁ।",selectPhotos:"ଅତିକମରେ ଗୋଟିଏ ଗଛର ଫଟୋ ବାଛନ୍ତୁ।",working:"ଆପଣଙ୍କ ପ୍ରଶ୍ନ ବିଶ୍ଳେଷଣ କରାଯାଉଛି…",error:"କିଛି ସମସ୍ୟା ହେଲା। ପୁଣି ଚେଷ୍ଟା କରନ୍ତୁ।"}},
+  ur:{name:"اردو",speech:"ur-IN",dict:{subtitle:"اسمارٹ فارمنگ اسسٹنٹ",home:"ہوم",about:"ہمارے بارے میں",advice:"مشورہ",profile:"پروفائل",hero:"Kisan AI کیسے مدد کر سکتا ہے؟",heroSub:"پودوں کی تصاویر اپ لوڈ کریں، متن یا آواز سے سوال کریں اور عملی زرعی رہنمائی حاصل کریں۔",attach:"تصاویر شامل کریں",noPhotos:"کوئی تصویر منتخب نہیں",plant:"پودے / فصل کا نام (اختیاری)",question:"اپنے پودے یا زرعی مسئلے کے بارے میں پوچھیں...",analyze:"تجزیہ کریں",auto:"خودکار شناخت",resultTitle:"Kisan AI تجزیہ",feature1Title:"پودے کے مسئلے کا تجزیہ",feature1:"بیماری، کیڑے، جڑی بوٹی، پودے کی شناخت اور غذائی کمی کا تجزیہ۔",feature2Title:"علاج کی رہنمائی",feature2:"علاج کے اختیارات، مقدار، استعمال، حفاظت اور انتظار کی مدت۔",feature3Title:"زرعی مشورہ",feature3:"آبپاشی، غذائیت، فصل کا مرحلہ، روک تھام، مارکیٹ اور کھیتی کی منصوبہ بندی۔",aboutTitle:"Kisan AI کے بارے میں",aboutText:"Kisan AI ایک آسان زرعی معاون ہے جہاں کسان تصویر، متن اور آواز کے ذریعے سوال پوچھ سکتے ہیں۔",currentTitle:"موجودہ خدمات",current1:"پودے اور فصل کے مسائل کا تجزیہ",current2:"متن اور آواز کے ذریعے زرعی رہنمائی",current3:"کثیر لسانی تجربہ",futureTitle:"مستقبل کی خدمات",future1:"مقامی موسم اور ضلع کی بنیاد پر مشورہ",future2:"تصدیق شدہ علاج اور فصل کے تحفظ کی معلومات",future3:"مارکیٹ قیمت، فروخت اور کھیتی کی منصوبہ بندی",adviceTitle:"زرعی مشورہ",adviceText:"آبپاشی، غذائیت، فصل کے مرحلے، کیڑوں سے بچاؤ، کٹائی کی منصوبہ بندی وغیرہ کے بارے میں پوچھیں۔",profileTitle:"پروفائل",profileText:"سروس بڑھنے کے ساتھ پروفائل اور محفوظ کسان اکاؤنٹس شامل کیے جائیں گے۔",name:"نام",mobile:"موبائل نمبر",email:"ای میل",tagline:"فصل کا مسئلہ؟ Kisan AI سے پوچھیں۔",selectPhotos:"کم از کم ایک پودے کی تصویر منتخب کریں۔",working:"آپ کے سوال کا تجزیہ کیا جا رہا ہے…",error:"کچھ مسئلہ ہوا۔ دوبارہ کوشش کریں۔"}}
 };
-document.getElementById("siteLanguage").addEventListener("change",e=>{document.documentElement.lang=e.target.value});
+
+let currentLang="en";
+const photoFiles=[];
+
+function t(k){return (LANGS[currentLang].dict[k] || LANGS.en.dict[k] || k)}
+function populateLanguages(){
+  const site=document.getElementById("siteLang"), ans=document.getElementById("answerLang");
+  site.innerHTML=""; ans.innerHTML="";
+  Object.entries(LANGS).forEach(([code,l])=>{
+    site.add(new Option(l.name,code));
+  });
+  ans.add(new Option(t("auto"),"auto"));
+  Object.entries(LANGS).forEach(([code,l])=>ans.add(new Option(l.name,code)));
+  site.value=currentLang; ans.value="auto";
+}
+function applyLanguage(){
+  document.documentElement.lang=currentLang;
+  document.querySelectorAll("[data-i]").forEach(el=>el.textContent=t(el.dataset.i));
+  document.querySelectorAll("[data-placeholder]").forEach(el=>el.placeholder=t(el.dataset.placeholder));
+  const count=document.getElementById("photoCount");
+  count.textContent=photoFiles.length ? `${photoFiles.length} ${currentLang==="en"?"photo(s) selected":"photo(s)"}` : t("noPhotos");
+  populateLanguages();
+}
+function showSection(id){
+  document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));
+  const n=document.getElementById("nav-"+id); if(n)n.classList.add("active");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+document.getElementById("siteLang").addEventListener("change",e=>{
+  currentLang=e.target.value; localStorage.setItem("kisanLang",currentLang); applyLanguage();
+});
+const saved=localStorage.getItem("kisanLang");
+if(saved && LANGS[saved]) currentLang=saved;
+applyLanguage();
+
+document.getElementById("photos").addEventListener("change",e=>{
+  photoFiles.length=0;
+  [...e.target.files].forEach(f=>photoFiles.push(f));
+  const row=document.getElementById("photoRow"); row.innerHTML="";
+  photoFiles.forEach(f=>{
+    const img=document.createElement("img"); img.className="thumb"; img.src=URL.createObjectURL(f); row.appendChild(img);
+  });
+  document.getElementById("photoCount").textContent=photoFiles.length ? `${photoFiles.length} photo(s) selected` : t("noPhotos");
+});
+
+function fileToDataURL(file){
+  return new Promise((resolve,reject)=>{
+    const r=new FileReader(); r.onload=()=>resolve(r.result); r.onerror=reject; r.readAsDataURL(file);
+  });
+}
+document.getElementById("mic").addEventListener("click",()=>{
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){toast("Voice input is not supported in this browser.");return}
+  const rec=new SR(); rec.lang=LANGS[currentLang].speech; rec.interimResults=false; rec.maxAlternatives=1;
+  const btn=document.getElementById("mic"); btn.classList.add("listening");
+  rec.onresult=e=>{document.getElementById("question").value += (document.getElementById("question").value?" ":"")+e.results[0][0].transcript};
+  rec.onerror=()=>toast("Voice input could not be started.");
+  rec.onend=()=>btn.classList.remove("listening");
+  rec.start();
+});
+
+document.getElementById("analyze").addEventListener("click",async()=>{
+  if(!photoFiles.length){toast(t("selectPhotos"));return}
+  const status=document.getElementById("status"); status.style.display="block"; status.textContent=t("working");
+  const btn=document.getElementById("analyze"); btn.disabled=true;
+  try{
+    const images=await Promise.all(photoFiles.map(fileToDataURL));
+    const answerChoice=document.getElementById("answerLang").value;
+    const answerLanguage=answerChoice==="auto"?currentLang:answerChoice;
+    const payload={
+      crop:document.getElementById("plant").value.trim(),
+      question:document.getElementById("question").value.trim(),
+      language:answerLanguage,
+      image:images[0],
+      images:images
+    };
+    const res=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
+    const data=await res.json().catch(()=>({}));
+    if(!res.ok) throw new Error(data.error||data.message||`HTTP ${res.status}`);
+    document.getElementById("resultText").textContent=data.answer||data.output||JSON.stringify(data,null,2);
+    document.getElementById("results").style.display="block";
+    document.getElementById("results").scrollIntoView({behavior:"smooth",block:"start"});
+  }catch(err){
+    document.getElementById("resultText").textContent=err.message||t("error");
+    document.getElementById("results").style.display="block";
+  }finally{
+    status.style.display="none"; btn.disabled=false;
+  }
+});
+function toast(msg){const x=document.getElementById("toast");x.textContent=msg;x.style.display="block";setTimeout(()=>x.style.display="none",2600)}
 </script>
 </body>
 </html>
