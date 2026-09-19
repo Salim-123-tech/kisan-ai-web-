@@ -1,109 +1,125 @@
-<!DOCTYPE html>
-<html lang="hi">
+<!doctype html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kisan AI — Fasal ki problem? Kisan AI se poochho.</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kisan AI | Smart Farming Assistant</title>
 <style>
-:root{--green:#087a3b;--dark:#12351f;--light:#effaf2;--border:#d7e7dc;--gold:#e3a51a}
-*{box-sizing:border-box}body{margin:0;font-family:Arial,"Noto Sans Devanagari",sans-serif;color:var(--dark);background:#fff}
-header{display:flex;align-items:center;justify-content:space-between;padding:12px 5%;border-bottom:1px solid var(--border);position:sticky;top:0;background:#ffffffee;backdrop-filter:blur(8px);z-index:3}
-.brand{display:flex;align-items:center;gap:9px}.brandmark{width:42px;height:42px}.logo{font-size:27px;font-weight:800;color:var(--green)}.logo span{color:#172b1c}nav a{margin-left:20px;color:var(--dark);text-decoration:none;font-weight:600}
-.hero{padding:28px 5% 22px;background:linear-gradient(135deg,#f1fbf3,#fff)}.hero-inner{max-width:900px;margin:auto;text-align:center}.eyebrow{display:inline-block;background:#e1f4e6;padding:7px 12px;border-radius:999px;font-weight:700;color:var(--green);font-size:14px}
-h1{font-size:clamp(34px,7vw,58px);line-height:1.08;margin:12px 0 8px;color:#102a18}h1 span{color:var(--green)}.sub{font-size:18px;line-height:1.5;color:#45604d;margin:0 auto 18px;max-width:700px}
-.hero-points{display:flex;justify-content:center;flex-wrap:wrap;gap:8px}.point{background:#fff;border:1px solid var(--border);padding:8px 11px;border-radius:999px;font-size:14px}
-.section{max-width:900px;margin:auto;padding:26px 5%}.section h2{font-size:30px;margin:0 0 6px}.section-intro{margin:0 0 16px;color:#55705d}
-#analyzer{background:#f7fbf8;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}.panel{max-width:760px;margin:auto;background:white;border:1px solid var(--border);border-radius:22px;padding:22px;box-shadow:0 10px 30px #12351f0d}
-.upload{display:block;border:2px dashed #72ae80;padding:28px 18px;text-align:center;border-radius:18px;background:#f5fbf6;cursor:pointer}.upload strong{display:block;font-size:21px;color:var(--green);margin-bottom:5px}.upload small{color:#607766}
-label{display:block;font-weight:700;margin:15px 0 7px}select,input,textarea{width:100%;padding:13px;border:1px solid #cbdacf;border-radius:12px;font-size:16px;background:#fff}textarea{resize:vertical}.question-box{position:relative}.question-box textarea{padding-right:58px}.mic{position:absolute;right:9px;bottom:9px;width:44px;height:44px;padding:0;margin:0;flex:none;border-radius:50%;font-size:20px;background:#e7f5ea;color:var(--green);border:1px solid #b8d8c0}.voice-note{font-size:13px;color:#55705d;margin:7px 0 0}
-.step{font-size:13px;color:#55705d;margin:8px 0}.filename{color:#567;font-size:14px;margin:8px 0 0}.actions{display:flex;gap:8px;flex-wrap:wrap}button{border:0;background:var(--green);color:#fff;padding:14px 20px;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;margin-top:16px;flex:1}.actions button{width:100%}
-.result{display:none;margin-top:20px;padding:18px;border-radius:16px;background:#eff9f1;border:1px solid #b9d9c0}.warn{font-size:13px;color:#6b4d18;background:#fff7df;padding:12px;border-radius:10px;margin-top:12px}
-.features{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.card{border:1px solid var(--border);border-radius:17px;padding:18px;background:#fff}.card h3{font-size:18px;margin:7px 0}.icon{font-size:30px}
-footer{padding:26px 5%;background:#12351f;color:#fff;text-align:center}
-@media(max-width:700px){nav{display:none}.hero{padding-top:22px}.features{grid-template-columns:1fr}.panel{padding:17px}h1{font-size:39px}}
+:root{--green:#087a3d;--green2:#0da552;--dark:#123127;--muted:#687a72;--bg:#f5faf7;--card:#fff;--line:#dce9e2;--gold:#f4b51b;--danger:#b42318}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--dark);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+header{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--line);box-shadow:0 3px 18px #12312712}
+.header{max-width:1200px;margin:auto;min-height:82px;padding:10px 20px;display:flex;align-items:center;gap:16px}
+.brand{display:flex;align-items:center;gap:10px;margin-right:auto}.logo{width:58px;height:58px;flex:none}.brand h1{font-size:31px;line-height:1;margin:0;color:var(--green)}.brand p{font-size:11px;color:var(--muted);margin:5px 0 0}
+nav{display:flex;gap:4px}nav button,.profileBtn{border:0;background:transparent;color:#3b5149;font-weight:700;padding:10px 12px;border-radius:10px;cursor:pointer}nav button.active,nav button:hover,.profileBtn:hover{background:#eaf7ef;color:var(--green)}
+.siteLang{border:1px solid var(--line);border-radius:10px;padding:9px;background:#fff;color:var(--dark)}
+main{max-width:1100px;margin:auto;padding:34px 18px 70px}
+.hero{text-align:center;padding:8px 0 20px}.hero h2{font-size:clamp(31px,5vw,50px);margin:0 0 9px}.hero p{margin:0;color:var(--muted);font-size:17px}
+.chat{max-width:880px;margin:auto;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:22px;box-shadow:0 14px 38px #1231270d}
+.upload{border:2px dashed #9ccbad;border-radius:18px;background:#f8fcf9;text-align:center;padding:24px}.uploadIcon{font-size:34px}.upload h3{margin:7px 0}.upload p{color:var(--muted);margin:5px 0 16px}.upload label{display:inline-block;background:var(--green);color:#fff;padding:12px 18px;border-radius:12px;font-weight:800;cursor:pointer}.upload input{display:none}
+.thumbs{display:flex;flex-wrap:wrap;gap:10px;margin-top:15px}.thumb{position:relative}.thumb img{width:82px;height:82px;object-fit:cover;border-radius:11px;border:1px solid var(--line)}.thumb span{position:absolute;right:-4px;top:-7px;background:var(--green);color:white;border-radius:99px;font-size:11px;padding:2px 6px}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}.field{width:100%;padding:13px;border:1px solid var(--line);border-radius:13px;background:#fff;font:inherit;color:var(--dark)}
+.question{display:flex;gap:8px;margin-top:14px;border:1px solid var(--line);border-radius:15px;background:#fff;padding:6px}.question textarea{flex:1;border:0;outline:0;resize:vertical;min-height:72px;padding:9px;font:inherit}.mic{align-self:flex-end;border:0;background:#eaf7ef;border-radius:11px;padding:11px;font-size:20px;cursor:pointer}
+.analyze{width:100%;border:0;background:var(--green);color:#fff;border-radius:14px;padding:15px;margin-top:14px;font-size:17px;font-weight:800;cursor:pointer}.analyze:hover{background:#066d36}.notice{font-size:12px;color:var(--muted);text-align:center;line-height:1.5;margin:10px 0 0}
+.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;max-width:1000px;margin:22px auto}.quick .card{background:#fff;border:1px solid var(--line);border-radius:17px;padding:19px}.ico{font-size:29px}.card h3{margin:7px 0}.card p{color:var(--muted);line-height:1.5;margin:0}
+.result{display:none;margin-top:16px;background:#f8fcf9;border:1px solid var(--line);border-radius:15px;padding:17px;white-space:pre-wrap;line-height:1.6}.result.error{background:#fff7f6;border-color:#f2c5c1;color:var(--danger)}
+footer{border-top:1px solid var(--line);background:#fff;text-align:center;color:var(--muted);padding:25px}
+@media(max-width:850px){nav{display:none}.header{padding:9px 12px}.brand h1{font-size:25px}.brand p{font-size:10px}main{padding:24px 12px 50px}.chat{padding:14px;border-radius:18px}.fields,.quick{grid-template-columns:1fr}.siteLang{max-width:105px}}
 </style>
 </head>
 <body>
 <header>
-  <div class="brand">
-    <svg class="brandmark" viewBox="0 0 48 48" aria-label="Kisan AI logo" role="img">
-      <path d="M7 31c8-2 14-7 19-17 4 8 9 12 15 14" fill="none" stroke="#087a3b" stroke-width="5" stroke-linecap="round"/>
-      <path d="M8 35c9-3 20-3 32 0" fill="none" stroke="#087a3b" stroke-width="3.5" stroke-linecap="round"/>
-      <circle cx="36" cy="10" r="5" fill="#e3a51a"/>
-    </svg>
-    <div class="logo"><span>Kisan</span> AI</div>
-  </div>
-  <nav><a href="#analyzer">Plant Check</a><a href="#features">Features</a></nav>
+<div class="header">
+<div class="brand">
+<svg class="logo" viewBox="0 0 64 64" aria-label="Kisan AI logo">
+<path d="M8 48Q21 18 35 15Q27 31 18 46" fill="none" stroke="#087a3d" stroke-width="7" stroke-linecap="round"/>
+<path d="M15 46Q34 39 53 48" fill="none" stroke="#087a3d" stroke-width="6" stroke-linecap="round"/>
+<circle cx="48" cy="15" r="7" fill="#f4b51b"/>
+</svg>
+<div><h1>Kisan AI</h1><p>Smart Farming Assistant</p></div>
+</div>
+<nav>
+<button class="active">Home</button><button>About Us</button><button>Advice</button><button>Profile</button>
+</nav>
+<select id="siteLanguage" class="siteLang" aria-label="Website language">
+<option value="en">English</option><option value="hi">हिन्दी</option><option value="as">অসমীয়া</option><option value="bn">বাংলা</option>
+</select>
+<button class="profileBtn" aria-label="Profile">👤</button>
+</div>
 </header>
 
+<main>
 <section class="hero">
-  <div class="hero-inner">
-    <div class="eyebrow">🌱 Aapke plant ka AI farming assistant</div>
-    <h1>Fasal ya plant ki problem?<br><span>Kisan AI se poochho.</span></h1>
-    <p class="sub">Photo upload karein, phir apna sawaal <b>voice ya text</b> mein poochhein.</p>
-  </div>
+<h2>How can Kisan AI help?</h2>
+<p>Upload plant photos, ask by text or voice, and get practical farming guidance.</p>
 </section>
 
-<section class="section" id="analyzer">
-<div class="panel">
-<h2>🌱 Chaliye plant check karte hain</h2>
-<p class="section-intro">Sabse pehle photo upload karein. Plant ka naam pata ho to batayein—warna koi problem nahi.</p>
+<section class="chat" aria-label="Kisan AI assistant">
+<div class="upload">
+<div class="uploadIcon">📷</div>
+<h3>Upload plant photos</h3>
+<p>You can upload multiple photos from different angles for better analysis.</p>
+<label for="photos">Choose photos</label>
+<input id="photos" type="file" accept="image/jpeg,image/png,image/webp" multiple>
+<div class="thumbs" id="thumbs"></div>
+</div>
 
-<label>1. Plant ki photo</label>
-<label class="upload" for="photo"><strong>📷 Photo Upload Karein</strong><small>Leaf, stem, fruit ya poore plant ki clear photo</small><input id="photo" type="file" accept="image/*" style="display:none"></label>
-<p id="filename" class="filename">Abhi koi photo select nahi hui.</p>
-
-<label>2. Plant / Crop ka naam <span style="font-weight:400;color:#6a7d70">(optional)</span></label>
-<select id="crop">
-<option value="Not specified">Naam nahi pata / Select nahi kiya</option>
-<option>Rice</option><option>Wheat</option><option>Maize</option><option>Tomato</option><option>Chilli</option><option>Brinjal</option><option>Potato</option><option>Mustard</option><option>Pulses</option><option>Vegetable</option><option>Fruit crop</option><option>Flower / Ornamental plant</option><option>Grass</option><option>Weed</option><option>Tree</option><option>Other plant</option>
+<div class="fields">
+<input id="plant" class="field" placeholder="Plant / crop name (optional)">
+<select id="answerLanguage" class="field" aria-label="Answer language">
+<option value="auto">Auto Detect</option>
+<option value="multi">Multi-language</option>
+<option>English</option><option>Hindi</option><option>Assamese</option><option>Bengali</option>
+<option>Tamil</option><option>Telugu</option><option>Marathi</option><option>Gujarati</option>
+<option>Punjabi</option><option>Kannada</option><option>Malayalam</option><option>Odia</option><option>Urdu</option>
 </select>
-
-<label>3. Apni problem batayein <span style="font-weight:400;color:#6a7d70">(voice ya text)</span></label>
-<div class="question-box"><textarea id="question" rows="3" placeholder="Jaise: patte pe peele daag hain, keeda dikh raha hai, growth ruk gayi hai..."></textarea><button type="button" class="mic" onclick="speak()" aria-label="Voice se sawaal poochhein">🎤</button></div>
-<p class="voice-note">🎤 Mic dabakar bol sakte hain, ya seedha type kar sakte hain.</p>
-
-<label>4. Bhasha</label>
-<select id="lang"><option>Hindi</option><option>Assamese</option><option>English</option></select>
-
-<div class="actions"><button onclick="analyze()">🔍 Plant Analyze Karein</button></div>
-
-<div class="result" id="result">
-<h3>🤖 Kisan AI — Preliminary Analysis</h3>
-<div id="resultText"></div>
-<div class="warn">⚠️ AI-assisted guidance hai. Disease ya pesticide treatment ko final maanane se pehle trusted agricultural expert, product label aur official recommendation se verify karein.</div>
 </div>
+
+<div class="question">
+<textarea id="question" placeholder="Describe the problem or ask your farming question…"></textarea>
+<button id="voice" class="mic" aria-label="Voice input">🎤</button>
 </div>
+
+<button id="analyze" class="analyze">🔎 Analyze with Kisan AI</button>
+<div id="result" class="result"></div>
+<p class="notice">AI analysis is preliminary. Treatment recommendations should be checked against official agricultural guidance and product labels.</p>
 </section>
 
-<section class="section" id="features">
-<h2>Kisan AI ka goal</h2>
-<p class="section-intro">Diagnosis ke saath practical farming help—step by step.</p>
-<div class="features">
-<div class="card"><div class="icon">🔬</div><h3>Problem samjho</h3><p>Disease, pest, weed, deficiency aur visible plant symptoms ko analyse karna.</p></div>
-<div class="card"><div class="icon">💊</div><h3>Treatment guidance</h3><p>Verified agricultural information ke basis par safe treatment options tak pahunch.</p></div>
-<div class="card"><div class="icon">🧑‍🌾</div><h3>Farming advice</h3><p>Irrigation, nutrition, crop management aur prevention par practical guidance.</p></div>
-</div>
+<section class="quick">
+<div class="card"><div class="ico">🔬</div><h3>Problem & diagnosis</h3><p>Disease, pest, weed, plant identification and nutrient-deficiency analysis.</p></div>
+<div class="card"><div class="ico">💊</div><h3>Treatment guidance</h3><p>Verified treatment options, dose, application method, safety and waiting period.</p></div>
+<div class="card"><div class="ico">🌱</div><h3>Farming advice</h3><p>Irrigation, nutrition, crop-stage care, prevention, market and farm-planning support.</p></div>
 </section>
+</main>
 
-<footer>🌾 <b>Kisan AI</b> — Fasal ki problem? Kisan AI se poochho.<br><small>Prototype • Better farming decisions through accessible AI</small></footer>
+<footer>Kisan AI • Fasal ki problem? Kisan AI se poochho.</footer>
 
 <script>
-document.getElementById('photo').addEventListener('change',function(){
-  document.getElementById('filename').textContent=this.files.length ? "Selected: "+this.files[0].name : "Abhi koi photo select nahi hui.";
+const input=document.getElementById("photos"),thumbs=document.getElementById("thumbs"),result=document.getElementById("result");
+let files=[];
+input.addEventListener("change",()=>{files=[...input.files];thumbs.innerHTML="";files.forEach((f,i)=>{const d=document.createElement("div");d.className="thumb";const img=document.createElement("img");img.src=URL.createObjectURL(f);img.alt=f.name;const n=document.createElement("span");n.textContent=i+1;d.append(img,n);thumbs.appendChild(d)})});
+function detectLanguage(t){if(/[\u0980-\u09FF]/.test(t))return /[অসমীয়াৱয়]/.test(t)?"Assamese":"Bengali";if(/[\u0900-\u097F]/.test(t))return" Hindi";return"English"}
+function language(){const v=document.getElementById("answerLanguage").value;return v==="auto"?detectLanguage(document.getElementById("question").value):v==="multi"?"Multi-language":v}
+function toDataURL(f){return new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(r.result);r.onerror=no;r.readAsDataURL(f)})}
+document.getElementById("analyze").addEventListener("click",async()=>{
+ const q=document.getElementById("question").value.trim(),plant=document.getElementById("plant").value.trim(),btn=document.getElementById("analyze");
+ if(!files.length&&!q){result.className="result error";result.style.display="block";result.textContent="Please upload a photo or enter a question.";return}
+ btn.disabled=true;btn.textContent="⏳ Analyzing…";result.className="result";result.style.display="block";result.textContent="Kisan AI is analyzing…";
+ try{
+  const images=await Promise.all(files.map(toDataURL));
+  const response=await fetch("https://kisan-ai-kznz.onrender.com/api/analyze",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({crop:plant,question:q,language:language(),image:images[0]||"",images})});
+  const data=await response.json().catch(()=>({}));
+  if(!response.ok)throw new Error(data.error||("Server error "+response.status));
+  result.textContent=data.answer||data.output||data.result||JSON.stringify(data,null,2);
+ }catch(e){result.className="result error";result.textContent="Analysis could not be completed.\n\n"+e.message}
+ finally{btn.disabled=false;btn.textContent="🔎 Analyze with Kisan AI"}
 });
-const API_URL = "https://kisan-ai-kznz.onrender.com/api/analyze";
-function fileToDataUrl(file){return new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=reject;reader.readAsDataURL(file);});}
-async function makeSmallerImage(file){if(!file.type.startsWith("image/")) throw new Error("Please select an image.");const raw=await fileToDataUrl(file);return new Promise(resolve=>{const img=new Image();img.onload=()=>{const max=1600;const scale=Math.min(1,max/Math.max(img.width,img.height));const canvas=document.createElement("canvas");canvas.width=Math.max(1,Math.round(img.width*scale));canvas.height=Math.max(1,Math.round(img.height*scale));const ctx=canvas.getContext("2d");ctx.drawImage(img,0,0,canvas.width,canvas.height);resolve(canvas.toDataURL("image/jpeg",0.78));};img.onerror=()=>resolve(raw);img.src=raw;});}
-async function analyze(){
-  const crop=document.getElementById('crop').value;const question=document.getElementById('question').value.trim();const language=document.getElementById('lang').value;const file=document.getElementById('photo').files[0];
-  if(!file){alert("Pehle plant ki photo select karein.");return;}
-  const btn=document.querySelector('button[onclick="analyze()"]');btn.disabled=true;btn.textContent="⏳ Kisan AI soch raha hai...";
-  const result=document.getElementById('result');result.style.display='block';document.getElementById('resultText').innerHTML='<p>Photo analyze ho rahi hai. Thoda time lag sakta hai.</p>';
-  try{const imageDataUrl=await makeSmallerImage(file);const response=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({crop,question,language,image:imageDataUrl})});const data=await response.json().catch(()=>({}));if(!response.ok) throw new Error(data.error||"AI analysis failed.");document.getElementById('resultText').innerHTML='<div style="white-space:pre-wrap;line-height:1.6">'+escapeHtml(data.answer||"No answer received.")+'</div>';result.scrollIntoView({behavior:'smooth',block:'center'});}catch(err){document.getElementById('resultText').innerHTML='<h3>⚠️ Analysis nahi ho paya</h3><p>'+escapeHtml(err.message)+'</p>';result.scrollIntoView({behavior:'smooth',block:'center'});}finally{btn.disabled=false;btn.textContent="🔍 Analyze Karein";}
-}
-function escapeHtml(text){return String(text).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));}
-function speak(){if(!('webkitSpeechRecognition' in window||'SpeechRecognition' in window)){alert('Is browser mein voice input support nahi hai.');return;}const SR=window.SpeechRecognition||window.webkitSpeechRecognition;const r=new SR();r.lang=document.getElementById('lang').value==='Assamese'?'as-IN':document.getElementById('lang').value==='English'?'en-IN':'hi-IN';r.onresult=e=>document.getElementById('question').value=e.results[0][0].transcript;r.start();}
+document.getElementById("voice").onclick=()=>{
+ const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){alert("Voice input is not supported in this browser.");return}
+ const r=new SR(),v=document.getElementById("answerLanguage").value;
+ const map={English:"en-IN",Hindi:"hi-IN",Assamese:"as-IN",Bengali:"bn-IN",Tamil:"ta-IN",Telugu:"te-IN",Marathi:"mr-IN",Gujarati:"gu-IN",Punjabi:"pa-IN",Kannada:"kn-IN",Malayalam:"ml-IN",Odia:"or-IN",Urdu:"ur-IN"};
+ r.lang=map[v]||"en-IN";r.onresult=e=>document.getElementById("question").value=e.results[0][0].transcript;r.start();
+};
+document.getElementById("siteLanguage").addEventListener("change",e=>{document.documentElement.lang=e.target.value});
 </script>
 </body>
 </html>
